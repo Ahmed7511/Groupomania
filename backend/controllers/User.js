@@ -13,7 +13,15 @@ exports.getAllUsers = (req, res, next) =>{
     .then(users => res.status(200).json({users}))
     .catch(err => res.status(401).json({err}))
 }
-
+exports.getOneUser = (req, res, next) =>{
+  db.User.findOne({
+        where :{
+                 id: req.params.id
+                 }
+           })
+    .then(user => res.status(200).json({user}))
+    .catch(err => res.status(401).json({err}))
+}
  //CREATE user
  exports.signup = (req, res, next) => {
   let {pseudo, email, password} = req.body ;
@@ -25,7 +33,7 @@ exports.getAllUsers = (req, res, next) =>{
         }) 
   
     .then(user => {
-       if (pseudo || email) {
+       if (user) {
   return res.status(404).json({ error: 'Utilisateur existe déja!' });
     }else{
   bcrypt.hash(req.body.password, 10)
@@ -57,7 +65,7 @@ exports.getAllUsers = (req, res, next) =>{
   exports.login = (req, res, next) => {
     db.User.findOne({
       where:{
-           email: req.body.email
+           email: req.body.email,
       }
           }) 
     
