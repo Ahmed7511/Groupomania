@@ -1,9 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');          
-const jwt = require('jsonwebtoken');  // pour créé les token et les vérifier
-const mailValidator = require('email-validator'); 
-const passwordValidator = require('password-validator'); 
+const jwt = require('jsonwebtoken');  // pour créé les token et les vérifie
 const db = require('../config/database');
 const dotenv = require("dotenv").config(); // pour caché les donnés
 const path = require('path');

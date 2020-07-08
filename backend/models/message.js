@@ -4,6 +4,13 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
   //  like : DataTypes.INTEGER 
+  userId: {
+    type: DataTypes.INTEGER,
+    references: { 
+        model: db.user, 
+        key: 'id' },
+    allowNull: false
+    },
   });
   Message.associate = (models) => {
     Message.belongsTo(models.User, {
