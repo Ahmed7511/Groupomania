@@ -17,20 +17,13 @@ exports.getAllMessage = (req,res, next) =>{
     })
 }
 exports.getMessage = (req, res, next)=>{
- let {title, content} = req.body;   
+ let {title, content} = req.body; 
+ let userId =  localStorage.getItem('userId');
     db.Message.create({
         title : req.body.title,
         content: req.body.content,
-        userId : localStorage.getItem('token').
-                  JWT.decode(token , process.env.PASS_WORD , function(err, decodedToken) {
-              if(err) {res.send(err) }
-              else {
-               req.userId = decodedToken.id;   // Add to req object
-               next();
-              }
+        userId,
             })
-         
-    })
     .then(message => res.status(201).json({ message : 'message ajouté avec succés ! '}))
     .catch(error => res.status(400).json({ error }));
 

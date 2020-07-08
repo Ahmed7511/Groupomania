@@ -64,6 +64,7 @@ exports.getOneUser = (req, res, next) =>{
     db.User.findOne({
       where:{
            email: req.body.email,
+          
       }
           }) 
     
@@ -77,10 +78,10 @@ exports.getOneUser = (req, res, next) =>{
           return res.status(401).json({ error: 'Mot de passe incorrect !' });
         }
         res.status(200).json({
-          userId: user._id,
+          userId: user.id,
           userPseudo: user.pseudo,
           token: jwt.sign(
-            { userId: user._id },
+            { userId: user.id },
             process.env.PASS_WORD,
             { expiresIn: '24h' }
           )
