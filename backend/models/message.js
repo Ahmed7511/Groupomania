@@ -1,13 +1,20 @@
+const db = require('../config/database');
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
+    id: {
+      type: DataTypes.INTEGER,
+      field: "message_id",
+      autoIncrement: true,
+      primaryKey: true
+    },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
   //  like : DataTypes.INTEGER 
-  userId: {
+  UserId: {
     type: DataTypes.INTEGER,
     references: { 
-        model: db.user, 
+       model: db.User, 
         key: 'id' },
     allowNull: false
     },

@@ -15,10 +15,10 @@ const db = new Sequelize(process.env.DB, process.env.DB_USER, process.env.DB_PAS
 });
 
 // importe le model User
-const model = db['import']('../models/User');
-models[model.name] = model;
-// const Message = db['import']('../models/Message');
-// models[Message.name] = Message;
+const User = db['import']('../models/User');
+models[User.name] = User;
+const Message = db['import']('../models/Message');
+models[Message.name] = Message;
 // const Comment = db['import']('../models/comment');
 // models[model.name] = Comment;
 // const Like = db['import']('../models/like');

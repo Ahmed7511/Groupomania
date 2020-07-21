@@ -14,11 +14,11 @@ pseudo: {type : DataTypes.STRING,
 password:{type:DataTypes.STRING },
 
 });
-// User.associate = (models) => {
-//   User.hasMany(models.Message,{ foreignKey: 'userId' }, { onDelete: 'cascade' })
+User.associate = (models) => {
+  User.hasMany(models.Message,{ foreignKey: 'userId' }, { onDelete: 'cascade' })
 //  //User.hasMany(models.Like,{ foreignKey: 'userId' }, { onDelete: 'cascade' }),
 // // User.hasMany(models.Comment,{ foreignKey: 'userId' }, { onDelete: 'cascade' })
-// };
+ };
   return User;
 }
 

@@ -91,7 +91,9 @@ exports.getOneUser = (req, res, next) =>{
     })
     .catch(error => res.status(500).json({ error }));
 };
-  //delete user 
+
+
+//delete user 
 // exports.deleteOneUser = (req, res, next) => {
 //  // let {pseudo, email, password} = req.body ;
 //   db.User.findOne({

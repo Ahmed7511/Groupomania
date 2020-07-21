@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const UserRoutes = require('./Routes/User');
+const MessageRoutes = require('./Routes/Message');
 const path = require('path');
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv').config(); // pour caché les donnés
@@ -18,12 +19,12 @@ const app = express();
 
 
 app.use((req, res, next) => {
-          res.setHeader("Access-Control-Allow-Origin", "*");
-          res.setHeader(
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header(
                     "Access-Control-Allow-Headers",
                     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
           );
-          res.setHeader(
+          res.header(
                     "Access-Control-Allow-Methods",
                     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
           );
@@ -31,4 +32,5 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 app.use('/user', UserRoutes);
+app.use('/message', MessageRoutes);
 module.exports = app;
