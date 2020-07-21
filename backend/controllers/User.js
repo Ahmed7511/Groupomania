@@ -1,9 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');          
-const jwt = require('jsonwebtoken');  // pour créé les token et les vérifier
-const mailValidator = require('email-validator'); 
-const passwordValidator = require('password-validator'); 
+const jwt = require('jsonwebtoken');  // pour créé les token et les vérifie
 const db = require('../config/database');
 const dotenv = require("dotenv").config(); // pour caché les donnés
 const path = require('path');
@@ -66,6 +64,7 @@ exports.getOneUser = (req, res, next) =>{
     db.User.findOne({
       where:{
            email: req.body.email,
+          
       }
           }) 
     
@@ -79,10 +78,10 @@ exports.getOneUser = (req, res, next) =>{
           return res.status(401).json({ error: 'Mot de passe incorrect !' });
         }
         res.status(200).json({
-          userId: user._id,
+          userId: user.id,
           userPseudo: user.pseudo,
           token: jwt.sign(
-            { userId: user._id },
+            { userId: user.id },
             process.env.PASS_WORD,
             { expiresIn: '24h' }
           )
@@ -92,7 +91,9 @@ exports.getOneUser = (req, res, next) =>{
     })
     .catch(error => res.status(500).json({ error }));
 };
-  //delete user 
+
+
+//delete user 
 // exports.deleteOneUser = (req, res, next) => {
 //  // let {pseudo, email, password} = req.body ;
 //   db.User.findOne({
