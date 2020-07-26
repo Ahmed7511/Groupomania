@@ -39,7 +39,8 @@ exports.createMessage = async (req, res, next)=>{
               process.env.PASS_WORD
     );
     const userId = decodedToken.userId;
-       db.Message.create({title : req.body.title , content : req.body.content , UserId : userId})
+    const MessageObjet = JSON.parse(req.body) 
+    db.Message.create({title : req.body.title , content : req.body.content , UserId : userId})
     .then(message =>  res.status(201).json({ message : 'message ajouté avec succés ! '}))
     .catch(error =>  res.status(500).json(error))
 }
@@ -99,9 +100,10 @@ exports.updateOneMessage =  (req, res, next)=>{
      db.Message.update(
         {title : req.body.title,
           content : req.body.content},
+        {returning: true},
         {where : {
             userId : userId,
-            message_id : req.body.id
+            message_id : req.params.id
         }}
     )
     .then(message =>  res.status(201).json({ message }))
