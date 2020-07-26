@@ -45,32 +45,20 @@ Vue.use(Vuex)
         }
        }
      },
-     {
-      path: '/user/messages', 
-      name: 'messages',
-      components:{ default: () => import('../views/users-messages.vue') },
-      beforeEnter: (to, from, next) =>{
-        let token = localStorage.getItem('token');
-          if(!token){
-            next('/user/login');
-          }else{
-            next();
-          }  
-      }
-    } ,
-    {
-      path: '/user/message/:id', // /:id(\\d+) pour accepter que les chiffres
-      name: 'message-id',
-      components:{ default: () => import('../views/user-message.vue') },
-      beforeEnter: (to, from, next) =>{
-        let token = localStorage.getItem('token');
-          if(!token){
-            next('/user/login');
-          }else{
-            next();
-          }  
-    }
-  }
+     
+    // {
+    //   path: '/user/message/:id', // /:id(\\d+) pour accepter que les chiffres
+    //   name: 'message-id',
+    //   components:{ default: () => import('../views/user-message.vue') },
+    //   beforeEnter: (to, from, next) =>{
+    //     let token = localStorage.getItem('token');
+    //       if(!token){
+    //         next('/user/login');
+    //       }else{
+    //         next();
+    //       }  
+  //    }
+  // }
 ]
 const router = new VueRouter({
   mode: 'history',
