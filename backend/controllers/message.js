@@ -2,14 +2,15 @@ const bodyParser = require('body-parser');
 const db = require('../config/database');
 const jwt = require('jsonwebtoken');
 const message = require('../models/message')
-
+const fs = require('fs');
 
 exports.getAllMessage =  (req,res, next) =>{
         db.Message.findAll({
             include: [{
                 model: db.User,
                 attributes: ['id', 'pseudo']
-            }]
+            }],
+            order: [["createdAt", "DESC"]]
         })
         .then(messages =>  
             {
@@ -19,13 +20,13 @@ exports.getAllMessage =  (req,res, next) =>{
                     "id": message.id ,
                     "title": message.title,
                     "content": message.content,
-                   //  "likes": post.likes,
+                    //"likes": message.likes,
                     "pseudo" : message.User.pseudo ,
                     "userId": message.userId,
                     "createdAt": message.createdAt
                 })
             )
-        
+                    
             return res.status(200).json({Messages})
         })
 
@@ -39,10 +40,16 @@ exports.createMessage = async (req, res, next)=>{
               process.env.PASS_WORD
     );
     const userId = decodedToken.userId;
-    const MessageObjet = JSON.parse(req.body) 
-    db.Message.create({title : req.body.title , content : req.body.content , UserId : userId})
-    .then(message =>  res.status(201).json({ message : 'message ajouté avec succés ! '}))
-    .catch(error =>  res.status(500).json(error))
+    db.Message.create({
+        ...req.body,
+            UserId : userId} || {...req.body,
+                UserId : userId,
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        
+    })
+    .then(message => res.status(201).json({ message }))
+    .catch(error => console.log(error))
+        // res.status(500).json(error))
 }
  // supprimé un message     
  exports.deleteMessage = async (req, res, next)=>{
@@ -52,14 +59,15 @@ exports.createMessage = async (req, res, next)=>{
               process.env.PASS_WORD
     );
     const userId = decodedToken.userId;
-    console.log(req.body)
-    db.Message.destroy({
+    //console.log(req.body)
+   // const filename = sauce.imageUrl.split('/images/')[1];
+
+    db.Message.destroy({ 
         where : {
             userId : userId,
             message_id : req.params.id
-        }
+         }
     })
-    
     .then(message => { 
          if(req.body.userId === userId){
             res.status(200).json({ message : 'message supprimé avec succés ! '})
@@ -99,8 +107,9 @@ exports.updateOneMessage =  (req, res, next)=>{
     
      db.Message.update(
         {title : req.body.title,
-          content : req.body.content},
-        {returning: true},
+          content : req.body.content,
+          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        },
         {where : {
             userId : userId,
             message_id : req.params.id

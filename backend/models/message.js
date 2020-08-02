@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-  //  like : DataTypes.INTEGER 
+   // like : DataTypes.INTEGER ,
   UserId: {
     type: DataTypes.INTEGER,
     references: { 
@@ -25,9 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     })
-   Message.hasMany(models.Image, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
-    // Message.hasMany(models.Like, { foreignKey: 'messageId'}, { onDelete: 'cascade' }),
-  // Message.hasMany(models.Comment, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
+ //   Message.hasMany(models.Like, { foreignKey: 'messageId'}, { onDelete: 'cascade' }),
+//  Message.hasMany(models.Comment, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
   };
   return Message;
 } 

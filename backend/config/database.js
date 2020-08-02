@@ -19,12 +19,10 @@ const User = db['import']('../models/User');
 models[User.name] = User;
 const Message = db['import']('../models/Message');
 models[Message.name] = Message;
-const Image = db['import']('../models/image');
-models[Image.name] = Image;
 // const Comment = db['import']('../models/comment');
-// models[model.name] = Comment;
+// models[Comment.name] = Comment;
 // const Like = db['import']('../models/like');
-// models[model.name] = Like;
+// models[Like.name] = Like;
 // ajoute les relations des models
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
