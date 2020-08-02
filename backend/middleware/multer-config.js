@@ -1,4 +1,5 @@
  const multer = require('multer');
+const message = require('../models/message');
 const MIME_TYPES= {
     'image/jpg' : 'jpg',
     'image/jpeg' : 'jpg',
@@ -11,8 +12,8 @@ destination : (req, file, callback) =>{
  filename : (req, file, callback) =>{
      const name = file.originalname.split('').join('_');
      const extension = MIME_TYPES[file.mimetype];
-     callback(null, name + date.nom() + '.' + extension)
+     callback(null, name + '.' + extension)
  }
  });
 
- module.exports = multer({ storage }).single('image');
+ module.exports = multer({ storage }).single('file');
