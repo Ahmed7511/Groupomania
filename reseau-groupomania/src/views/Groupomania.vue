@@ -51,16 +51,20 @@
                     <span>J'aime pas !</span>
                     </v-tooltip>
                 </div>
-                 <div class="comments">
-                    <v-tooltip top>
+         </div>
+                <div class="comments">
+                 {{User}}
+<p>{{ comment }}
+<textarea v-model="comment" placeholder="add comment" ></textarea></p>
+                    <!-- <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                     <v-btn to="" v-bind="attrs" v-on="on"><v-icon>mdi-message</v-icon>
                     </v-btn>
                     </template>
                     <span>Laisser un commentaire</span>
-                    </v-tooltip>
-                </div> 
-         </div>
+                    </v-tooltip> -->
+                </div>  
+        
 <form class="add-new-post" name="add-new-post" v-if="edit === message.id" >
     <div class="form-group" >
       <label for="title" > title</label>
@@ -86,6 +90,7 @@ import axios from 'axios'
 export default {
     data(){
         return{
+          comment: '',
           edit : false,
           file: '',
            updatedContent :'',

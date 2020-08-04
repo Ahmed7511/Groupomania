@@ -18,16 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: {
         model: 'Message',
-        key: 'id'
+        key: 'message_id'
       }
     },
     content: DataTypes.STRING,
-    parent: {
-      type: DataTypes.INTEGER,
-      hierarchy: {as: 'parentId', onDelete: 'cascade'},
+    // parent: {
+    //   type: DataTypes.INTEGER,
+    //   hierarchy: {as: 'parentId', onDelete: 'cascade'},
       
-    },
-    hierarchyLevel: DataTypes.INTEGER
+    // },
+    // hierarchyLevel: DataTypes.INTEGER
   }, {  });
   Comment.associate = function(models) {
     Comment.belongsTo(models.User, {
