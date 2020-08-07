@@ -24,7 +24,7 @@
   <button class="btn btn-primary btn-block" @click="post()">post</button>
   </form>
   <div class="message" v-for="message in messages" :key="message.id">
-         <img src="`http://localhost:3000/images/${file}`" > 
+         <img src="`http://localhost:3000/images/`" > 
       <h3> {{message.pseudo}}</h3>
       <h4 > {{ message.title  }}</h4>
         <small><span class="glyphicon glyphicon-calendar" aria-hidden="false"></span>{{ message.createdAt }}</small>
@@ -52,17 +52,27 @@
                     </v-tooltip>
                 </div>
          </div>
-                <div class="comments">
-                 {{User}}
-<p>{{ comment }}
-<textarea v-model="comment" placeholder="add comment" ></textarea></p>
-                    <!-- <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-btn to="" v-bind="attrs" v-on="on"><v-icon>mdi-message</v-icon>
-                    </v-btn>
-                    </template>
-                    <span>Laisser un commentaire</span>
-                    </v-tooltip> -->
+                <div class="comments"  v-for="item in items" :key="item.id">
+              <h5> {{item.pseudo}} </h5> 
+                 <p>{{ item.comment }} </p>
+                  <p>{{item.createdAt}} </p>
+       <v-btn v-if="item.pseudo == User" color="primary"  @click="edit = item.id"  > edit comment  </v-btn>  
+        <v-btn class="btn btn-primary btn-block" @click="removeComment(item)">remove comment</v-btn>
+                <form class="edit-comment" v-if="edit === item.id">
+                   <textarea v-model="updatedComment" ></textarea>
+                    <v-btn type="button" class="btn btn-success" color="succes"
+                               data-dismiss="modal"
+                          @click="modifyComment(item)">Save Changes</v-btn>
+                               <v-btn type="button" class="btn btn-default" color="primary"
+                             data-dismiss="modal" v-if="edit === item.id"  @click="edit = !edit">Close</v-btn>
+          
+                </form>
+                </div>
+              <div>
+<textarea v-model="comment" placeholder="add comment" ></textarea>
+  <button class="btn btn-primary btn-block" @click="postComment(message)">add comment</button>
+
+                   
                 </div>  
         
 <form class="add-new-post" name="add-new-post" v-if="edit === message.id" >
@@ -75,11 +85,11 @@
       <textarea name="content"  v-model="updatedContent" ></textarea>
     </div>    
      
-            <button type="button" class="btn btn-success" color="succes"
+            <v-btn type="button" class="btn btn-success" color="succes"
                                data-dismiss="modal"
-                              v-if="edit === message.id"  @click="modify(message)">Save Changes</button>
-                               <button type="button" class="btn btn-default" color="primary"
-                             data-dismiss="modal" v-if="edit === message.id"  @click="edit = !edit">Close</button>
+                              v-if="edit === message.id"  @click="modify(message)">Save Changes</v-btn>
+                               <v-btn type="button" class="btn btn-default" color="primary"
+                             data-dismiss="modal" v-if="edit === message.id"  @click="edit = !edit">Close</v-btn>
           </form>
       </div>
 </v-container>
@@ -90,6 +100,7 @@ import axios from 'axios'
 export default {
     data(){
         return{
+          updatedComment : '',
           comment: '',
           edit : false,
           file: '',
@@ -98,7 +109,8 @@ export default {
             title : '',
             content : '',
             User : localStorage.getItem('user'),
-            messages : []
+            messages : [],
+            items : []
         }
     },
     created() {
@@ -108,7 +120,15 @@ export default {
       .then(response => 
       (this.messages = response.data.Messages ) )
         .catch(err => console.log(err))
-},    
+},
+mounted() {
+  axios.get('http://localhost:3000/comment/comments', 
+           { headers : {Authorization: "Bearer " + localStorage.token}
+       })
+      .then(response => // console.log(response))
+      (this.items = response.data.Comments ) )
+        .catch(err => console.log(err))
+},   
     methods:{
         logout(){
             localStorage.clear();
@@ -162,8 +182,35 @@ export default {
                 window.location.reload();
       
         },
+        postComment(message){
+          axios.post('http://localhost:3000/comment/comments', { messageId : message.id,
+             comment : this.comment},
+             { headers : {Authorization: "Bearer " + localStorage.token}} ) 
+             .then((res) => console.log(res) )
+              .catch(err =>console.log(err))
+           window.location.reload();
+
+        },
+        removeComment(item){
+          axios.delete('http://localhost:3000/comment/comments/'+ item.id,
+            { headers : {Authorization: "Bearer " + localStorage.token } }
+                         )
+                .then(res => console.log(res))
+                .catch(err =>console.log(err))
+                  window.location.reload();
+        },
+        modifyComment(item){
+                  axios.put('http://localhost:3000/message/messages/' + item.id ,{
+                    
+                    comment : this.updatedComment
+                  },       
+                   { headers : {Authorization: "Bearer " + localStorage.token} }
+                         )
+                .then((res) => console.log(res) )
+                .catch(err =>console.log(err))
+                window.location.reload();
     }
-    
+    }
 }
 </script>
 <style scoped>

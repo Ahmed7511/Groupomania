@@ -10,18 +10,18 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'User',
+        model: db.User,
         key: 'id'
       }
     },
     messageId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Message',
+        model: db.Message,
         key: 'message_id'
       }
     },
-    content: DataTypes.STRING,
+    comment: DataTypes.STRING,
     // parent: {
     //   type: DataTypes.INTEGER,
     //   hierarchy: {as: 'parentId', onDelete: 'cascade'},
@@ -31,8 +31,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {  });
   Comment.associate = function(models) {
     Comment.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user'
+      foreignKey: {
+        allowNull: false
+      }
     });
     Comment.belongsTo(models.Message, {
       foreignKey: 'messageId',

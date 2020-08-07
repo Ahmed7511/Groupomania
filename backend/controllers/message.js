@@ -47,8 +47,7 @@ exports.createMessage = async (req, res, next)=>{
         
     })
     .then(message => res.status(201).json({ message }))
-    .catch(error => console.log(error))
-        // res.status(500).json(error))
+    .catch(error => res.status(500).json(error))
 }
  // supprimé un message     
  exports.deleteMessage = async (req, res, next)=>{
