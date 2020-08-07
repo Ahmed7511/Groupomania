@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Axios from 'axios'
+import CommentGrid from 'vue-comment-grid'
+
+Vue.use(CommentGrid)
 Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(VueRouter)

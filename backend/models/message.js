@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     })
  //   Message.hasMany(models.Like, { foreignKey: 'messageId'}, { onDelete: 'cascade' }),
-//  Message.hasMany(models.Comment, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
+  Message.hasMany(models.Comment, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
   };
   return Message;
 } 

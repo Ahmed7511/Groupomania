@@ -19,8 +19,8 @@ const User = db['import']('../models/User');
 models[User.name] = User;
 const Message = db['import']('../models/Message');
 models[Message.name] = Message;
-// const Comment = db['import']('../models/comment');
-// models[Comment.name] = Comment;
+const Comment = db['import']('../models/comment');
+models[Comment.name] = Comment;
 // const Like = db['import']('../models/like');
 // models[Like.name] = Like;
 // ajoute les relations des models

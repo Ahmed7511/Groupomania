@@ -3,7 +3,6 @@ const db = require('../config/database');
 const jwt = require('jsonwebtoken');
 const message = require('../models/message')
 const fs = require('fs');
-
 exports.getAllMessage =  (req,res, next) =>{
         db.Message.findAll({
             include: [{
@@ -48,8 +47,7 @@ exports.createMessage = async (req, res, next)=>{
         
     })
     .then(message => res.status(201).json({ message }))
-    .catch(error => console.log(error))
-        // res.status(500).json(error))
+    .catch(error => res.status(500).json(error))
 }
  // supprimé un message     
  exports.deleteMessage = async (req, res, next)=>{
@@ -60,8 +58,6 @@ exports.createMessage = async (req, res, next)=>{
     );
     const userId = decodedToken.userId;
     //console.log(req.body)
-   // const filename = sauce.imageUrl.split('/images/')[1];
-
     db.Message.destroy({ 
         where : {
             userId : userId,
@@ -107,6 +103,8 @@ exports.updateOneMessage =  (req, res, next)=>{
     
      db.Message.update(
         {title : req.body.title,
+            content : req.body.content } || {
+            title : req.body.title,
           content : req.body.content,
           imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         },

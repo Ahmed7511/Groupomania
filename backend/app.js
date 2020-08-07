@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const exphbs = require('express-handlebars');
 const UserRoutes = require('./Routes/User');
 const MessageRoutes = require('./Routes/Message');
+const CommentRoutes = require('./Routes/Comment');
 const path = require('path');
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv').config(); // pour caché les donnés
 //console.log(dotenv.parsed);
 //database
-const db = require('./config/database')
+const db = require('./config/database');
   
 
 // test DB
@@ -34,4 +34,5 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/user', UserRoutes);
 app.use('/message', MessageRoutes);
+app.use('/comment', CommentRoutes);
 module.exports = app;
