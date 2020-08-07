@@ -64,8 +64,8 @@
                                data-dismiss="modal"
                           @click="modifyComment(item)">Save Changes</v-btn>
                                <v-btn type="button" class="btn btn-default" color="primary"
-                             data-dismiss="modal" v-if="edit === item.id"  @click="edit = !edit">Close</v-btn>
-          
+                         data-dismiss="modal" v-if="edit === item.id"  @click="edit = !edit">Close</v-btn>
+      
                 </form>
                 </div>
               <div>
