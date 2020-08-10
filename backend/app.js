@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const UserRoutes = require('./Routes/User');
 const MessageRoutes = require('./Routes/Message');
 const CommentRoutes = require('./Routes/Comment');
+const ReactRoutes= require('./Routes/Like');
 const path = require('path');
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv').config(); // pour caché les donnés
@@ -35,4 +36,5 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/user', UserRoutes);
 app.use('/message', MessageRoutes);
 app.use('/comment', CommentRoutes);
+app.use('/react', ReactRoutes);
 module.exports = app;

@@ -13,12 +13,12 @@
   </v-toolbar>
  <form enctype="multipart/form-data" class="add-new-post" name="add-new-post" ref="MyForm" >
     <div class="form-group" >
-      <label for="title" > title</label>
+      <label for="title" > title : </label>
       <input type="text" class="form-control" name="title"  v-model="title">
     </div>
     <div class="form-group">
-      <label for="post-content"> content</label>
-      <textarea name="content"  v-model="content" ></textarea>
+      <label for="post-content"> content : 
+      <textarea name="content" rows="1" v-model="content" ></textarea></label>
     </div> 
    <input type="file" ref="file" @change="selectFile" >  
   <button class="btn btn-primary btn-block" @click="post()">post</button>
@@ -31,19 +31,34 @@
       <p>
         {{ message.content }}</p> 
         <p>{{message.id}}</p>  
-
+      <form class="add-new-post" name="add-new-post" v-if="edit === message.id" >
+    <div class="form-group" >
+      <label for="title" > title : </label>
+      <input type="text" class="form-control" name="title"  v-model="message.title">
+    </div>
+    <div class="form-group">
+      <label for="post-content"> content :
+      <textarea name="content" rows="1"  v-model="message.content" ></textarea></label>
+    </div>    
+     
+            <v-btn type="button" class="btn btn-success" color="succes"
+                               data-dismiss="modal"
+                              v-if="edit === message.id"  @click="modify(message)">Save Changes</v-btn>
+                               <v-btn type="button" class="btn btn-default" color="primary"
+                             data-dismiss="modal" v-if="edit === message.id"  @click="edit = !edit">Close</v-btn>
+          </form>
           <v-btn v-if="message.pseudo == User" color="primary"  @click="edit = message.id"  > edit  </v-btn>
          <v-btn depressed  v-if="message.pseudo == User"  color="error" @click="remove(message)">remove</v-btn>
          <div class="react">  
-           <div class="likes" >
+           <div class="likes"  @click="userLike(message)" >
                     <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
+                    <template  v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on"><v-icon color="green">mdi-thumb-up</v-icon></v-btn>
                     </template>
-                    <span>J'aime !</span>
+                    <span >J'aime !</span>
                     </v-tooltip>
                 </div>
-                <div class="dislikes" >
+                <div class="dislikes"  @click="userDislike(message) ">
                     <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on"><v-icon color="red">mdi-thumb-down</v-icon></v-btn>
@@ -55,42 +70,28 @@
                 <div class="comments"  v-for="item in items" :key="item.id">
               <h5> {{item.pseudo}} </h5> 
                  <p>{{ item.comment }} </p>
-                  <p>{{item.createdAt}} </p>
+                  <small>{{item.createdAt}} </small>
        <v-btn v-if="item.pseudo == User" color="primary"  @click="edit = item.id"  > edit comment  </v-btn>  
-        <v-btn class="btn btn-primary btn-block" @click="removeComment(item)">remove comment</v-btn>
+        <v-btn v-if="item.pseudo == User" class="btn btn-primary btn-block" @click="removeComment(item)">remove comment</v-btn>
                 <form class="edit-comment" v-if="edit === item.id">
-                   <textarea v-model="updatedComment" ></textarea>
+                   <textarea v-model="item.comment " > </textarea>
                     <v-btn type="button" class="btn btn-success" color="succes"
                                data-dismiss="modal"
                           @click="modifyComment(item)">Save Changes</v-btn>
                                <v-btn type="button" class="btn btn-default" color="primary"
                          data-dismiss="modal" v-if="edit === item.id"  @click="edit = !edit">Close</v-btn>
       
-                </form>
+                 </form>
                 </div>
-              <div>
-<textarea v-model="comment" placeholder="add comment" ></textarea>
-  <button class="btn btn-primary btn-block" @click="postComment(message)">add comment</button>
 
+                <div class="comment" :v-for="message.id" >       
+<textarea  v-model="comment" placeholder="add comment" ></textarea>
+  <v-btn class="btn btn-primary btn-block" @click="postComment(message)">add comment</v-btn>
+                
                    
-                </div>  
+  </div>  
         
-<form class="add-new-post" name="add-new-post" v-if="edit === message.id" >
-    <div class="form-group" >
-      <label for="title" > title</label>
-      <input type="text" class="form-control" name="title"  v-model="updatedTitle">
-    </div>
-    <div class="form-group">
-      <label for="post-content"> content</label>
-      <textarea name="content"  v-model="updatedContent" ></textarea>
-    </div>    
-     
-            <v-btn type="button" class="btn btn-success" color="succes"
-                               data-dismiss="modal"
-                              v-if="edit === message.id"  @click="modify(message)">Save Changes</v-btn>
-                               <v-btn type="button" class="btn btn-default" color="primary"
-                             data-dismiss="modal" v-if="edit === message.id"  @click="edit = !edit">Close</v-btn>
-          </form>
+
       </div>
 </v-container>
 </template>
@@ -100,12 +101,11 @@ import axios from 'axios'
 export default {
     data(){
         return{
-          updatedComment : '',
+          like : true,
+          disLike : true,
           comment: '',
           edit : false,
           file: '',
-           updatedContent :'',
-           updatedTitle : '',
             title : '',
             content : '',
             User : localStorage.getItem('user'),
@@ -168,12 +168,11 @@ mounted() {
                 .then(res => console.log(res))
                 .catch(err =>console.log(err))
                   window.location.reload();
-
         },
         modify(message){
                   axios.put('http://localhost:3000/message/messages/' + message.id ,{
-                    title : this.updatedTitle,
-                    content : this.updatedContent
+                    title : message.title,
+                    content : message.content
                   },       
                    { headers : {Authorization: "Bearer " + localStorage.token} }
                          )
@@ -189,7 +188,6 @@ mounted() {
              .then((res) => console.log(res) )
               .catch(err =>console.log(err))
            window.location.reload();
-
         },
         removeComment(item){
           axios.delete('http://localhost:3000/comment/comments/'+ item.id,
@@ -200,15 +198,30 @@ mounted() {
                   window.location.reload();
         },
         modifyComment(item){
-                  axios.put('http://localhost:3000/message/messages/' + item.id ,{
-                    
-                    comment : this.updatedComment
+                  axios.put('http://localhost:3000/comment/comments/' + item.id ,{
+                    messageId : item.messageId,
+                    comment : item.comment
                   },       
                    { headers : {Authorization: "Bearer " + localStorage.token} }
                          )
                 .then((res) => console.log(res) )
                 .catch(err =>console.log(err))
                 window.location.reload();
+    },
+    userLike(message){
+     axios.post('http://localhost:3000/react/',{
+       messageId: message.id,
+       userId : message.userId,
+       liketype : this.like
+     },       
+         { headers : {Authorization: "Bearer " + localStorage.token} }
+                         )
+                .then((res) => console.log(res) )
+                .catch(err =>console.log(err))
+   },
+    userDislike(message){
+    console.log(message.userId)
+
     }
     }
 }

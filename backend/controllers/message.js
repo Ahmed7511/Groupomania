@@ -19,7 +19,7 @@ exports.getAllMessage =  (req,res, next) =>{
                     "id": message.id ,
                     "title": message.title,
                     "content": message.content,
-                    //"likes": message.likes,
+                    "like": message.likes,
                     "pseudo" : message.User.pseudo ,
                     "userId": message.userId,
                     "createdAt": message.createdAt
