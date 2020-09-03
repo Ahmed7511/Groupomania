@@ -49,19 +49,19 @@
           </form>
           <v-btn v-if="message.pseudo == User" color="primary"  @click="edit = message.id"  > edit  </v-btn>
          <v-btn depressed  v-if="message.pseudo == User"  color="error" @click="remove(message)">remove</v-btn>
-         <div class="react">  
-           <div class="likes"  @click="userLike(message)" >
+         <div class="react" > 
+           <div class="likes" > 
                     <v-tooltip top>
                     <template  v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on"><v-icon color="green">mdi-thumb-up</v-icon></v-btn>
+                    <v-btn v-bind="attrs" v-on="on"><v-icon color="green" @click="userLike(message)" >mdi-thumb-up</v-icon>{{countLike}} </v-btn>
                     </template>
-                    <span >J'aime !</span>
+                    <span >J'aime !</span> 
                     </v-tooltip>
                 </div>
-                <div class="dislikes"  @click="userDislike(message) ">
+                <div class="dislikes"  >
                     <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on"><v-icon color="red">mdi-thumb-down</v-icon></v-btn>
+                    <v-btn v-bind="attrs" v-on="on"><v-icon color="red"   @click="userDislike(message) " >mdi-thumb-down</v-icon>{{countDislike}} </v-btn>
                     </template>
                     <span>J'aime pas !</span>
                     </v-tooltip>
@@ -101,8 +101,8 @@ import axios from 'axios'
 export default {
     data(){
         return{
-          like : true,
-          disLike : true,
+          like : 1,
+          disLike : -1,
           comment: '',
           edit : false,
           file: '',
@@ -110,7 +110,10 @@ export default {
             content : '',
             User : localStorage.getItem('user'),
             messages : [],
-            items : []
+            items : [],
+            reacts : [],
+            countLike : 0,
+            countDislike : 0 
         }
     },
     created() {
@@ -121,14 +124,15 @@ export default {
       (this.messages = response.data.Messages ) )
         .catch(err => console.log(err))
 },
-mounted() {
+Mounted() {
   axios.get('http://localhost:3000/comment/comments', 
            { headers : {Authorization: "Bearer " + localStorage.token}
        })
       .then(response => // console.log(response))
       (this.items = response.data.Comments ) )
         .catch(err => console.log(err))
-},   
+   },
+   
     methods:{
         logout(){
             localStorage.clear();
@@ -208,21 +212,53 @@ mounted() {
                 .catch(err =>console.log(err))
                 window.location.reload();
     },
+      
     userLike(message){
-     axios.post('http://localhost:3000/react/',{
+     axios.post('http://localhost:3000/react',{
        messageId: message.id,
        userId : message.userId,
-       liketype : this.like
+       likeType : this.like
      },       
          { headers : {Authorization: "Bearer " + localStorage.token} }
                          )
-                .then((res) => console.log(res) )
+                .then(response => (this.countLike = response.data) )
                 .catch(err =>console.log(err))
    },
     userDislike(message){
-    console.log(message.userId)
+        axios.post('http://localhost:3000/react',{
+                messageId: message.id,
+                userId : message.userId,
+               likeType : this.disLike
+              },       
+         { headers : {Authorization: "Bearer " + localStorage.token} }
+                         )
+                .then((res) => (this.countDislike = res.data) )
+                .catch(err =>console.log(err))
+   },
+//   getLike(message){
+// // compture de reaction
+//         axios.get('http://localhost:3000/react/like/' + message.id ,      
+//          { headers : {Authorization: "Bearer " + localStorage.token} }
+//                          )
+//                 .then( response => //console.log(response))
+//                 (this.countLike = response.data) )
+      
+//                 .catch(err =>console.log(err))
+//                // window.location.reload() 
+//   },
+// // compture de reaction
+//      getDisLike(message){
+//           axios.get('http://localhost:3000/react/dislike/' + message.id ,      
+//          { headers : {Authorization: "Bearer " + localStorage.token} }
+//                          )
+//                 .then( res => //console.log(res))
+//                 (this.countDislike = res.data))
+      
+//                 .catch(err =>console.log(err))
+//              //  window.location.reload()
 
-    }
+    
+    
     }
 }
 </script>
@@ -237,4 +273,5 @@ mounted() {
 .message{
   background-color: darkturquoise;
 }
+
 </style>

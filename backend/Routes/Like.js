@@ -3,11 +3,12 @@ const router = express.Router();
 const userCtrl = require('../controllers/Like');
 const auth = require('../middleware/auth');
 
-router.post('/',auth, userCtrl.reactPost);
-// router.get('/comments/:id',auth, userCtrl.getOneComment);
-// router.get('/comments',auth, userCtrl.getAllComments);
-// router.put('/comments/:id',auth, userCtrl.updateOneComment);
-// router.delete('/comments/:id',auth, userCtrl.deleteComment);
+router.post('/', userCtrl.reactPost);
+//router.get('/:id', userCtrl.getAllReact);
+router.get('/like/:id', userCtrl.getAllLike);
+router.get('/dislike/:id', userCtrl.getAllDisLike);
+
 
 
 module.exports = router;
+
