@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/Message');
-const auth = require('../middleware/Auth');
+const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
  router.post('/message', auth, multer, userCtrl.createMessage);
