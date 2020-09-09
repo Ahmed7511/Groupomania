@@ -3,7 +3,7 @@
     <v-toolbar>
         <v-spacer></v-spacer>
       <v-btn color="white"  value="message">
-         <span>Groupomania Users</span>
+         <span>Groupomania Users </span>
         </v-btn>
         <v-spacer></v-spacer>
     <RouterLink to="Groupomania">HOME</RouterLink>
