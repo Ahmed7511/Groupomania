@@ -1,13 +1,17 @@
 <template>
 <v-container >
   <v-toolbar>
-    <v-toolbar-title>Welcome {{User}}</v-toolbar-title>
+    <v-toolbar-title >Welcome <RouterLink to="Profile">{{User}}</RouterLink>
+</v-toolbar-title>
         <v-spacer></v-spacer>
     <v-btn color="white"  value="message">
           <span>Groupomania Home</span>
         </v-btn>
     <v-spacer></v-spacer>
     <v-toolbar-items >
+               <v-btn>
+                          <RouterLink to="Users">Users</RouterLink> 
+               </v-btn>
       <v-btn @click="logout()">Logout</v-btn>
     </v-toolbar-items>
   </v-toolbar>
@@ -108,7 +112,7 @@ export default {
           file: '',
             title : '',
             content : '',
-            User : localStorage.getItem('user'),
+            User : '',
             messages : [],
             items : [],
             reacts : [],
@@ -123,6 +127,14 @@ export default {
       .then(response => 
       (this.messages = response.data.Messages ) )
         .catch(err => console.log(err))
+        //get user
+        axios.get('http://localhost:3000/user/', 
+           { headers : {Authorization: "Bearer " + localStorage.token}
+       })
+      .then(response => 
+      (this.User = response.data.user.pseudo ) )
+        .catch(err => console.log(err))
+
 },
 Mounted() {
   axios.get('http://localhost:3000/comment/comments', 
@@ -275,3 +287,13 @@ Mounted() {
 }
 
 </style>
+
+ CREATE TABLE `users` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `pseudo` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(260) NOT NULL,
+  `createdAt` date DEFAULT NULL,
+  `updatedAt` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB

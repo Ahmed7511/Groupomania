@@ -46,7 +46,8 @@ exports.createMessage = async (req, res, next)=>{
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         
     })
-    .then(message => res.status(201).json({ message }))
+    .then(message => console.log(message) )
+        // res.status(201).json({ message }))
     .catch(error => res.status(500).json(error))
 }
  // supprimé un message     

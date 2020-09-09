@@ -9,15 +9,22 @@ const path = require('path');
 exports.getAllUsers = (req, res, next) =>{
   db.User.findAll()
     .then(users => res.status(200).json({users}))
-    .catch(err => res.status(401).json({err}))
+    .catch(err => res.status(401).json({ err }))
 }
 exports.getOneUser = (req, res, next) =>{
+  const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
+            const decodedToken = jwt.verify(
+                      token,
+                      process.env.PASS_WORD
+            );
+        const userId = decodedToken.userId; 
   db.User.findOne({
         where :{
-                 id: req.params.id
+                 id: userId
                  }
            })
-    .then(user => res.status(200).json({user}))
+    .then(user => 
+      res.status(200).json({user}))
     .catch(err => res.status(401).json({err}))
 }
  //CREATE user
@@ -94,28 +101,24 @@ exports.getOneUser = (req, res, next) =>{
 
 
 //delete user 
-// exports.deleteOneUser = (req, res, next) => {
-//  // let {pseudo, email, password} = req.body ;
-//   db.User.findOne({
-//     where:{                   
-//          pseudo: req.body.pseudo,                   
-//          email: req.body.email
-//     }
-//         }) 
-  
-//     .then(user => {
-//       db.User.deleteOne({ user })
-//       .then(() => res.status(200).json({message :'Objet supprimé !'}))
-//       .catch(err => res.status(400).json({ err}));
-//     })
-//     .catch(error => res.status(500).json({error}))
- // }
-// exports.deleteOneUser = (req,res, next)=>{
-//     mysqlConnection.query("DELETE FROM Users WHERE id= ?" ,[req.params.id],(err, rows, fields)=>{
-//       if(!err){
-//           res.send('DELETED with succés !');
-//       }else{
-//           console.log(err);
-//       }
-//     });
-// }
+exports.deleteOneUser = (req, res, next) => {
+db.User.destroy({ 
+      where : { id : req.params.id}
+ })
+      .then(() => res.status(200).json({message :'Objet supprimé !'}))
+      .catch(err => res.status(400).json({ err}));
+}
+
+//update user
+exports.updateOneUser = (req, res, next) => {
+  db.User.update({
+    pseudo : req.body.pseudo ,
+    email : req.body.email
+      },
+    {where : {
+        id : req.params.id
+    }}
+)
+.then(user =>  res.status(201).json({ message : 'updated with succés !' }))
+.catch(error =>  res.status(500).json(error))
+}

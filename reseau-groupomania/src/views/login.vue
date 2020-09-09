@@ -62,9 +62,7 @@ export default {
        )
        .then((res) => {
                     let token = res.data.token;
-                    let userPseudo = res.data.userPseudo;
                     localStorage.setItem('token', token);
-                    localStorage.setItem('user', userPseudo);
                     this.$router.push('/user/groupomania');
                   })       
                     .catch(err => console.log(err))

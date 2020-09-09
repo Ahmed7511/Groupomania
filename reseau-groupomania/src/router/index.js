@@ -48,7 +48,31 @@ Vue.use(Vuex)
         }
        }
      },
-     
+     {
+      path:'/user/profile',
+     name:'profile',
+     components: {default:() => import ( '../views/Profile.vue')},
+     beforeEnter: (to, from, next) =>{
+       let token = localStorage.getItem('token');
+         if(!token){
+           next('/user/groupomania');
+         }else{
+           next();
+         }
+        }
+      },{ 
+          path:'/user/users',
+         name:'Users',
+         components: {default:() => import ( '../views/Users.vue')},
+         beforeEnter: (to, from, next) =>{
+           let token = localStorage.getItem('token');
+             if(!token){
+               next('/user/groupomania');
+             }else{
+               next();
+             }
+            }
+      }
     // {
     //   path: '/user/message/:id', // /:id(\\d+) pour accepter que les chiffres
     //   name: 'message-id',
