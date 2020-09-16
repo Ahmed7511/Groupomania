@@ -49,6 +49,7 @@ export default {
        })
       .then(response => console.log(response) )
         .catch(err => console.log(err))
+        localStorage.clear();
         window.location.reload();
         },
         updateUser(user){

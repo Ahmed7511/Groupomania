@@ -16,4 +16,4 @@ destination : (req, file, callback) =>{
  }
  });
 
- module.exports = multer({ storage }).single('file');
+ module.exports = multer({ storage }).single('image');

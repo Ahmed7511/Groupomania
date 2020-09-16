@@ -4,13 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     id: {
       type: DataTypes.INTEGER,
-      field: "message_id",
+      field: 'message_id',
       autoIncrement: true,
       primaryKey: true
     },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-   // like : DataTypes.INTEGER ,
   UserId: {
     type: DataTypes.INTEGER,
     references: { 
@@ -18,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id' },
     allowNull: false
     },
+    imageUrl : DataTypes.STRING
   });
   Message.associate = (models) => {
     Message.belongsTo(models.User, {
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     })
- //   Message.hasMany(models.Like, { foreignKey: 'messageId'}, { onDelete: 'cascade' }),
+  Message.hasMany(models.Like, { foreignKey: 'messageId'}, { onDelete: 'cascade' }),
   Message.hasMany(models.Comment, { foreignKey: 'messageId'}, { onDelete: 'cascade' })
   };
   return Message;
