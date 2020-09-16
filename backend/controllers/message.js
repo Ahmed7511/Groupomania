@@ -19,6 +19,7 @@ exports.getAllMessage =  (req,res, next) =>{
                     "id": message.id ,
                     "title": message.title,
                     "content": message.content,
+                    "imageUrl" : message.imageUrl,
                     "like": message.likes,
                     "pseudo" : message.User.pseudo ,
                     "userId": message.userId,
@@ -40,15 +41,17 @@ exports.createMessage = async (req, res, next)=>{
     );
     const userId = decodedToken.userId;
     db.Message.create({
-        ...req.body,
-            UserId : userId} || {...req.body,
+        // ...req.body,
+        //     UserId : userId} || {
+             ...req.body,
                 UserId : userId,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        
+            
     })
-    .then(message => console.log(message) )
-        // res.status(201).json({ message }))
-    .catch(error => res.status(500).json(error))
+    .then(message => //console.log(message) )
+         res.status(201).json({ message }))
+    .catch(error => //console.log(error)) 
+         res.status(500).json(error))
 }
  // supprimé un message     
  exports.deleteMessage = async (req, res, next)=>{
@@ -59,21 +62,22 @@ exports.createMessage = async (req, res, next)=>{
     );
     const userId = decodedToken.userId;
     //console.log(req.body)
-    db.Message.destroy({ 
+    db.Message.findOne({
         where : {
             userId : userId,
             message_id : req.params.id
-         }
+        }
     })
-    .then(message => { 
-         if(req.body.userId === userId){
+    .then(message => {  const filename = message.imageUrl.split('/images/')[1];
+    
+                        fs.unlink(`images/${filename}`, () => {        
+                            db.Message.destroy({ where : {message_id: req.params.id} }) 
             res.status(200).json({ message : 'message supprimé avec succés ! '})
-         }else if(req.body.userId !== userId){
-            res.status(404).json({message : 'action non requis ! '})
-         } 
-        })
+        
+    })
+})
     .catch(error =>  res.status(500).json(error))
-}
+    }
 // get one message
 exports.getOneMessage =  (req, res, next)=>{
     const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
@@ -105,8 +109,7 @@ exports.updateOneMessage =  (req, res, next)=>{
      db.Message.update(
         {title : req.body.title,
             content : req.body.content } || {
-            title : req.body.title,
-          content : req.body.content,
+            ...req.body,
           imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         },
         {where : {

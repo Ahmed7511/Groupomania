@@ -12,7 +12,7 @@ exports.getAllUsers = (req, res, next) =>{
     .catch(err => res.status(401).json({ err }))
 }
 exports.getOneUser = (req, res, next) =>{
-  const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
+  const token =  req.headers.authorization.split(' ')[1] ; 
             const decodedToken = jwt.verify(
                       token,
                       process.env.PASS_WORD
@@ -49,10 +49,10 @@ exports.getOneUser = (req, res, next) =>{
       password: hash
         })
       .then(user => res.status(201).json({
-        userId: user._id,
+        userId: user.id,
         userPseudo: user.pseudo,
         token: jwt.sign(
-          { userId: user._id },
+          { userId: user.id },
           process.env.PASS_WORD,
           { expiresIn: '24h' }
         )

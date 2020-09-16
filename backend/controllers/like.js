@@ -36,6 +36,7 @@ exports.reactPost = async(req, res, next) => {
         })
       await db.Like.findAndCountAll({
           where: {
+            userId : userId,
              messageId: req.body.messageId, 
              likeType : req.body.likeType   
           }
@@ -48,25 +49,12 @@ exports.reactPost = async(req, res, next) => {
     
       }
   }
-  
-//   exports.getAllReact = (req, res, next)=>{
-//     db.Like.findAndCountAll({
-//        where: {
-//           messageId: req.params.id, 
-//           likeType
-//        }
-//     })
-//     .then(result => {
-//      res.status(201).json(result)
-//       console.log(result.rows)
-//     });
-//  }
 
 
   exports.getAllLike = (req, res, next)=>{
      db.Like.findAndCountAll({
         where: {
-           messageId: req.params.id, 
+          messageId: req.params.id, 
            likeType: 1
         }
      })
@@ -79,7 +67,7 @@ exports.reactPost = async(req, res, next) => {
   exports.getAllDisLike =  (req, res, next)=>{
     db.Like.findAndCountAll({
         where: {
-           messageId: req.params.id, 
+          messageId: req.params.id, 
            likeType: -1
         }
      })
