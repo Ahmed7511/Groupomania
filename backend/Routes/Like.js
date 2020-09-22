@@ -3,10 +3,10 @@ const router = express.Router();
 const userCtrl = require('../controllers/Like');
 const auth = require('../middleware/auth');
 
-router.post('/', userCtrl.reactPost);
-//router.get('/:id', userCtrl.getAllReact);
-router.get('/like/:id',auth, userCtrl.getAllLike);
-router.get('/dislike/:id',auth, userCtrl.getAllDisLike);
+router.post('/',auth, userCtrl.reactPost);
+//router.get('/', userCtrl.getReact);
+//router.get('/like/:messageId',auth, userCtrl.getAllLike);
+//router.get('/dislike/:messageId',auth, userCtrl.getAllDisLike);
 
 
 
