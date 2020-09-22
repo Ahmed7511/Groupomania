@@ -40,16 +40,16 @@ exports.createMessage = async (req, res, next)=>{
               process.env.PASS_WORD
     );
     const userId = decodedToken.userId;
-    db.Message.create({
-        // ...req.body,
-        //     UserId : userId} || {
-             ...req.body,
-                UserId : userId,
-                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-            
-    })
-    .then(message => //console.log(message) )
-         res.status(201).json({ message }))
+  
+      
+     db.Message.create({
+        ...req.body,
+        UserId: userId,
+        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } )
+    .then(message => //console.log(message) ) 
+              res.status(201).json({ message }))
+        
     .catch(error => //console.log(error)) 
          res.status(500).json(error))
 }
@@ -72,8 +72,8 @@ exports.createMessage = async (req, res, next)=>{
     
                         fs.unlink(`images/${filename}`, () => {        
                             db.Message.destroy({ where : {message_id: req.params.id} }) 
-            res.status(200).json({ message : 'message supprimé avec succés ! '})
-        
+                            .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                            .catch(error => res.status(400).json({ error }));
     })
 })
     .catch(error =>  res.status(500).json(error))
