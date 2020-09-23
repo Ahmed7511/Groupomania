@@ -40,31 +40,37 @@ exports.createMessage = async (req, res, next)=>{
               process.env.PASS_WORD
     );
     const userId = decodedToken.userId;
-  
-      
-     db.Message.create({
+  if(!req.file){
+    db.Message.create({
         ...req.body,
         UserId: userId,
-        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: ''
                 } )
-    .then(message => //console.log(message) ) 
-              res.status(201).json({ message }))
+                .then(message => //console.log(message) 
+                         res.status(201).json({ message })
+              )
         
     .catch(error => //console.log(error)) 
          res.status(500).json(error))
-}
+  }else if(req.file){
+     db.Message.create({
+        ...req.body,
+        UserId: userId,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } )
+                .then(message => //console.log(message) 
+                         res.status(201).json({ message })
+              )
+        
+    .catch(error => //console.log(error)) 
+         res.status(500).json(error))
+    }
+            }
+    
  // supprimé un message     
  exports.deleteMessage = async (req, res, next)=>{
-    const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
-    const decodedToken = jwt.verify(
-              token,
-              process.env.PASS_WORD
-    );
-    const userId = decodedToken.userId;
-    //console.log(req.body)
     db.Message.findOne({
         where : {
-            userId : userId,
             message_id : req.params.id
         }
     })
@@ -78,6 +84,7 @@ exports.createMessage = async (req, res, next)=>{
 })
     .catch(error =>  res.status(500).json(error))
     }
+  
 // get one message
 exports.getOneMessage =  (req, res, next)=>{
     const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
