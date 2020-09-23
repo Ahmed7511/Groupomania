@@ -37,7 +37,7 @@ exports.reactPost = async (req, res, next) => {
                     likeType: req.body.likeType,
                },
           })
-               .then((result) => {
+               .then(result=> {
                     res.status(201).json({
                          reacts: result.rows,
                          totale: result.count,

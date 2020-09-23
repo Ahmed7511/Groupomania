@@ -3,11 +3,11 @@
       <v-toolbar>
          <v-toolbar-title
             >Welcome
-            <RouterLink to="Profile">{{ User }}</RouterLink>
+            <RouterLink to="Profile">{{ user.pseudo }}</RouterLink>
          </v-toolbar-title>
          <v-spacer></v-spacer>
          <v-btn color="white" value="message">
-            <span>Groupomania Home</span>
+            <span><img src=''>GROUPOMANIA HOME</span>
          </v-btn>
          <v-spacer></v-spacer>
          <v-toolbar-items>
@@ -39,7 +39,7 @@
                <textarea name="content" rows="1" v-model="content"></textarea
             ></label>
          </div>
-         <input type="file" ref="file" @change="selectFile" />
+         <input type="file" ref="file" @change="selectFile"/>
          <button class="btn btn-primary btn-block" @click="post()">
             post
          </button>
@@ -47,7 +47,7 @@
 
       <div class="message" v-for="message in messages" :key="message.id">
          <div class="text-right">
-            <v-menu offset-y v-if="message.pseudo == User">
+            <v-menu offset-y v-if="message.userId == user.id || user.isAdmin == true">
                <template
                   v-slot:activator="{
                      on,
@@ -60,11 +60,11 @@
                </template>
                <v-list>
                   <v-list-item v-for="(option, index) in options" :key="index">
-                     <v-list-item-title @click="edit = message.id">{{
+                     <v-list-item-title v-if="message.userId == user.id" @click="edit = message.id">{{
                         option.edit
                      }}</v-list-item-title
                      ><br />
-                     <v-list-item-title @click="remove(message)">{{
+                     <v-list-item-title v-if="message.userId == user.id || user.isAdmin == true" @click="remove(message)">{{
                         option.delete
                      }}</v-list-item-title>
                   </v-list-item>
@@ -218,7 +218,7 @@
             </form>
          </div>
 
-         <div class="comment" :v-for="message.id">
+            <div class="comment"  >
             <textarea v-model="comment" placeholder="add comment"></textarea>
             <v-btn
                class="btn btn-primary btn-block"
@@ -226,6 +226,8 @@
                >add comment</v-btn
             >
          </div>
+
+         
       </div>
    </v-container>
 </template>
@@ -242,7 +244,7 @@ export default {
          file: "",
          title: "",
          content: "",
-         User: "",
+         user: [],
          messages: [],
          items: [],
          rows: [],
@@ -259,8 +261,9 @@ export default {
          })
          .then(
             (
-               response //console.log(response))
-            ) => (this.messages = response.data.Messages)
+               response 
+            ) => //console.log(response)
+              (this.messages = response.data.Messages)
          )
          .catch((err) => console.log(err));
       //get user
@@ -269,7 +272,8 @@ export default {
                Authorization: "Bearer " + localStorage.token,
             },
          })
-         .then((response) => (this.User = response.data.user.pseudo))
+         .then(response =>// console.log(response))
+          (this.user = response.data.user))
          .catch((err) => console.log(err));
    },
    mounted() {
@@ -331,8 +335,8 @@ export default {
                   Authorization: "Bearer " + localStorage.token,
                },
             })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
          window.location.reload();
       },
       modify(message) {
@@ -348,8 +352,8 @@ export default {
                   },
                }
             )
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
          window.location.reload();
       },
       postComment(message) {
