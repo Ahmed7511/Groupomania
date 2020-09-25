@@ -9,7 +9,7 @@ exports.getAllMessage =  (req,res, next) =>{
                 model: db.User,
                 attributes: ['id', 'pseudo']
             }],
-            order: [["createdAt", "DESC"]]
+            order: [["id", "DESC"]]
         })
         .then(messages =>  
             {

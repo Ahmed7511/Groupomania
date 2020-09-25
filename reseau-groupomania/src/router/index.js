@@ -72,7 +72,19 @@ Vue.use(Vuex)
                next();
              }
             }
-      }
+      },{ 
+        path:'/user/moderation',
+       name:'moderation',
+       components: {default:() => import ( '../views/admin.vue')},
+       beforeEnter: (to, from, next) =>{
+         let token = localStorage.getItem('token');
+           if(!token){
+             next('/user/groupomania');
+           }else{
+             next();
+           }
+          }
+    }
     // {
     //   path: '/user/message/:id', // /:id(\\d+) pour accepter que les chiffres
     //   name: 'message-id',

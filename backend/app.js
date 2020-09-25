@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const UserRoutes = require('./Routes/User');
 const MessageRoutes = require('./Routes/Message');
+const adminRoutes = require('./Routes/admin');
 const CommentRoutes = require('./Routes/Comment');
 const ReactRoutes= require('./Routes/Like');
 const path = require('path');
@@ -10,6 +11,7 @@ const dotenv = require('dotenv').config(); // pour caché les donnés
 //console.log(dotenv.parsed);
 //database
 const db = require('./config/database');
+const admin = require('./middleware/admin');
   
 
 // test DB
@@ -35,6 +37,7 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/user', UserRoutes);
 app.use('/message', MessageRoutes);
+app.use('/admin', adminRoutes);
 app.use('/comment', CommentRoutes);
 app.use('/react', ReactRoutes);
 module.exports = app;
