@@ -1,9 +1,12 @@
 <template>
 <v-container> 
-    <v-toolbar>
+    <v-toolbar >
+        <v-btn >
+     <RouterLink to="moderation">last postes</RouterLink>
+        </v-btn>
         <v-spacer></v-spacer>
       <v-btn color="white"  value="message">
-         <span>Groupomania Users </span>
+         <span  >Groupomania Users </span>
         </v-btn>
         <v-spacer></v-spacer>
     <RouterLink to="Groupomania">HOME</RouterLink>
@@ -23,16 +26,17 @@
 export default {
     data(){
         return{
+            user : '',
             users : [],
             error : ''
         }
     },
     created (){
-  axios.get('http://localhost:3000/user/users/', 
+  axios.get('http://localhost:3000/admin/users/', 
            { headers : {Authorization: "Bearer " + localStorage.token}
        })
       .then(response => (this.users = response.data.users) )
-        .catch(err => (this.error = err) )
+        .catch(err => (this.error = 'Autorisation refusée, seuls les admins peuvent utiliser cette route !') )
     }, 
     methods : {
         deleteUser(user){

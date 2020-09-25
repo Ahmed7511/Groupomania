@@ -11,8 +11,8 @@
          </v-btn>
          <v-spacer></v-spacer>
          <v-toolbar-items>
-            <v-btn>
-               <RouterLink to="Users">Users</RouterLink>
+            <v-btn v-if="user.isAdmin == true">
+               <RouterLink  to="Users">Users</RouterLink>
             </v-btn>
             <v-btn @click="logout()">Logout</v-btn>
          </v-toolbar-items>
@@ -260,9 +260,7 @@ export default {
             },
          })
          .then(
-            (
-               response 
-            ) => //console.log(response)
+            ( response ) => //console.log(response)
               (this.messages = response.data.Messages)
          )
          .catch((err) => console.log(err));
