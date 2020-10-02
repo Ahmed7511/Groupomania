@@ -3,7 +3,7 @@ const db = require('../config/database');
 exports.getAllUsersAdmin = (req, res, next) => {
     db.User.findAll()
        .then((users) => res.status(200).json({ users }))
-       .catch((err) => res.status(401).json({ err }));
+       .catch(err=> res.status(401).json({ err }))
  };
 exports.getAllMessageAdmin =  (req,res, next) =>{
     db.Message.findAll({

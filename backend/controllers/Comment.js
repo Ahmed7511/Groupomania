@@ -42,7 +42,8 @@ const userId = decodedToken.userId;
          UserId : userId,
         comment : req.body.comment    
     })
-    .then(comment => res.status(201).json({ comment }))
+    .then(comment =>// console.log(comment))
+        res.status(201).json({ comment }))
     .catch(error => console.log(error))
         //  res.status(500).json(error))
 }

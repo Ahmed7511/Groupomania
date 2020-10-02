@@ -34,17 +34,26 @@ exports.reactPost = async (req, res, next) => {
           await db.Like.findAndCountAll({
                where: {
                     messageId: req.body.messageId,
-                    likeType: req.body.likeType,
+                   // likeType: req.body.likeType,
                },
+              
           })
-               .then(result=> {
-                    res.status(201).json({
-                         reacts: result.rows,
-                         totale: result.count,
-                    });
-                    console.log(result.rows);
-               })
-               .catch((error) => res.status(500).json(error));
+               // .then(result=>  {  res.status(201).json({
+               //      reacts: result.rows,
+               //      totale: result.count})
+                    
+              .then(result => //console.log(result))
+                      
+                result.rows.forEach(row => {
+                      res.status(201).json({messageId : row.messageId, 
+                                             count : result.count,
+                                             reacts : result.rows })
+                                                 })
+                      
+               )
+              
+               .catch((error) => //console.log(error))
+                     res.status(500).json(error));
      }
 };
 // exports.getAllLike = (req, res, next)=>{

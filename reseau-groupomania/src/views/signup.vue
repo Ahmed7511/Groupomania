@@ -1,5 +1,7 @@
 <template>
-     <v-container>
+<v-main>
+     <v-container >
+          <img src="../assets/icon-left-font-monochrome-white.svg">
           <v-tabs grow right class="elevation-2" background-color="white">
                <v-tab to="/user/login">Login</v-tab>
                <v-tab to="/user/signup">Register</v-tab>
@@ -47,6 +49,8 @@
                </v-container>
           </v-form>
      </v-container>
+
+</v-main>
 </template>
 <script>
 import axios from "axios";
@@ -88,3 +92,8 @@ export default {
      },
 };
 </script>
+<style>
+.v-main {
+     background-color: blue;
+}
+</style>
