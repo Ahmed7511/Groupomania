@@ -1,8 +1,7 @@
 <template>
 <v-main>
-     <v-container >
-          <img src="../assets/icon-left-font-monochrome-white.svg">
-          <v-tabs grow right class="elevation-2" background-color="white">
+     <v-container>
+          <v-tabs grow right class="elevation-2">
                <v-tab to="/user/login">Login</v-tab>
                <v-tab to="/user/signup">Register</v-tab>
           </v-tabs>
@@ -86,6 +85,8 @@ export default {
 </script>
 <style scoped>
 .v-main{
-     background-color: blue;
+     background: url('../assets/icon.png');
+   background-repeat: round;
+
 }
 </style>

@@ -4,13 +4,9 @@
           <v-toolbar>
                <v-toolbar-title>Welcome {{ user.pseudo }}</v-toolbar-title>
                <v-spacer></v-spacer>
-               <RouterLink to="Groupomania">HOME</RouterLink>
+               <RouterLink class="text-decoration-none" to="Groupomania">HOME</RouterLink>
           </v-toolbar>
-          <div class="user">
-               <v-card-title>
-            <v-icon large left> </v-icon>
-         </v-card-title>
-
+          <div class="mx-auto pa-4 my-4">
          <v-card-actions>
             <v-list-item>
                <v-list-item-avatar color="grey darken-3">
@@ -31,15 +27,17 @@
                <v-btn color="primary" @click="edit = user.id"> Edit </v-btn>
           </div>
           <form class="edit-user" v-if="edit">
-               <textarea v-model="user.pseudo"> </textarea><br />
-               <textarea v-model="user.email"> </textarea>
+               <label class="title font-weight-bold" for="user"> pseudo :  </label><br>
+               <textarea id="user" v-model="user.pseudo"> </textarea><br>
+               <label class="title font-weight-bold" for="user-email"> email : </label><br>
+               <textarea id="user-email" v-model="user.email"> </textarea>
                <v-btn
                     type="button"
                     class="btn btn-success"
-                    color="succes"
+                    color="green"
                     data-dismiss="modal"
                     @click="updateUser(user)"
-                    >Save Changes</v-btn
+                    >Save </v-btn
                >
                <v-btn
                     type="button"
@@ -47,17 +45,17 @@
                     color="primary"
                     data-dismiss="modal"
                     @click="edit = !edit"
-                    >Close</v-btn
+                    >X</v-btn
                >
           </form>
      </v-container>
-     <v-footer class="footer" dark padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="blue">
+     <v-footer class="footer"  padless >
+         <v-card flat tile class=" lighten-1 white--text text-center">
             <v-card-text>
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
-                  class="mx-4 white--text"
+                  class="mx-4 red--text"
                   icon
                >
                   <v-icon size="24px">
@@ -66,7 +64,7 @@
                </v-btn>
             </v-card-text>
 
-            <v-card-text class="white--text pt-0">
+            <v-card-text class="black--text pt-0">
                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
                amet. Mauris cursus commodo interdum. Praesent ut risus eget
                metus luctus accumsan id ultrices nunc. Sed at orci sed massa
@@ -144,7 +142,8 @@ export default {
 };
 </script>
 <style scoped>
-.v-main{
-   background-color: blueviolet;
+.v-card{
+   background: url('../assets/icon-above-font.png');
+   background-repeat: round;
 }
 </style>

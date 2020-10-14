@@ -1,13 +1,12 @@
 <template>
-<v-main>
-     <v-container >
-          <img src="../assets/icon-left-font-monochrome-white.svg">
+<v-main >
+     <v-container blue >
+          <img src="../assets/icon-left-font-monochrome-white.svg" alt="groupo-white">
           <v-tabs grow right class="elevation-2" background-color="white">
                <v-tab to="/user/login">Login</v-tab>
                <v-tab to="/user/signup">Register</v-tab>
           </v-tabs>
-          <v-form ref="form" lazy-validation>
-               <v-container>
+          <v-form ref="form" lazy-validation >
                     <v-col>
                          <v-row>
                               <v-text-field
@@ -46,7 +45,7 @@
                               >
                          </v-row>
                     </v-col>
-               </v-container>
+             
           </v-form>
      </v-container>
 
@@ -93,7 +92,5 @@ export default {
 };
 </script>
 <style>
-.v-main {
-     background-color: blue;
-}
+
 </style>

@@ -1,18 +1,35 @@
 <template>
 <v-main>
 <v-container> 
-    <v-toolbar >
-        <v-btn >
-     <RouterLink to="moderation">last postes</RouterLink>
-        </v-btn>
-        <v-spacer></v-spacer>
-      <v-btn color="white"  value="message">
-         <span  >Groupomania Users </span>
-        </v-btn>
-        <v-spacer></v-spacer>
-    <RouterLink to="Groupomania">HOME</RouterLink>
-    </v-toolbar>   
-     <div class="user"  v-for="user in users" :key="user.id" >
+   <nav >
+     <v-toolbar color="blue" class="hidden-sm-and-down">
+          <v-toolbar-title>
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">last postes</RouterLink>
+            </v-toolbar-title>
+         <v-toolbar-title class="title font-weight-bold mx-auto">Groupomania Messages </v-toolbar-title>
+            <v-toolbar-title >
+    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+            </v-toolbar-title>
+            </v-toolbar>
+        <v-toolbar flat ap color="blue " class="hidden-md-and-up" >
+      <v-icon @click="drawer =!drawer">mdi-menu</v-icon>
+         <v-toolbar-title class="title font-weight-bold mx-auto" >Groupomania Messages </v-toolbar-title>
+        </v-toolbar> 
+         <v-navigation-drawer v-model="drawer" ap >
+            <v-toolbar-items class="d-flex flex-column" >
+            <v-toolbar-title >
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">last postes</RouterLink>
+            </v-toolbar-title>
+            <v-toolbar-title  >
+    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+            </v-toolbar-title>
+         </v-toolbar-items>
+         </v-navigation-drawer>
+         </nav>
+     <v-card
+      v-for="user in users" :key="user.id" 
+       class="mx-auto pa-4 my-4"
+         max-width="600">
                <v-card-title>
             <v-icon large left> </v-icon>
          </v-card-title>
@@ -30,12 +47,11 @@
             
          </v-card-actions>
           <span class="title font-weight-bold">pseudo : {{ user.pseudo }}</span>
-
                <p class="title font-weight-bold">Email : {{ user.email }}</p>
                <p class="title font-weight-bold">created at :{{ user.createdAt }}</p>
                <v-btn color="error" @click="deleteUser(user)"> delete </v-btn>
             
-          </div>
+     </v-card>
           
 
          {{ error }}
@@ -81,6 +97,7 @@
 export default {
     data(){
         return{
+           drawer : false,
             user : '',
             users : [],
             error : '',
@@ -112,7 +129,5 @@ export default {
 }
 </script>
 <style scoped>
-.v-main{
-   background-color: blueviolet;
-}
+
 </style>

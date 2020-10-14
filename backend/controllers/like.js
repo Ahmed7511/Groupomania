@@ -27,35 +27,39 @@ exports.reactPost = async (req, res, next) => {
           await disliked.save();
      } else {
           await db.Like.create({
-               messageId: req.body.messageId,
+               messageId: req.params.id,
                userId: userId,
                likeType: req.body.likeType,
           });
           await db.Like.findAndCountAll({
                where: {
-                    messageId: req.body.messageId,
-                   // likeType: req.body.likeType,
+                    messageId: req.params.id,
+                    likeType: req.body.likeType,
                },
               
           })
-               // .then(result=>  {  res.status(201).json({
-               //      reacts: result.rows,
-               //      totale: result.count})
-                    
-              .then(result => //console.log(result))
+               .then(result=> //console.log(result))
+                     {  res.status(201).json({
+                    reacts: result.rows,
+                    likes: result.count})
+               })
+             
+          //     .then(result => //console.log(result))
                       
-                result.rows.forEach(row => {
-                      res.status(201).json({messageId : row.messageId, 
-                                             count : result.count,
-                                             reacts : result.rows })
-                                                 })
+          //       result.rows.forEach(row => {
+          //             res.status(201).json( {reacts : {messageId : row.messageId, 
+          //                                    count : result.count,
+          //                                     }})
+          //                                        })
                       
-               )
+          //      )
               
-               .catch((error) => //console.log(error))
+               .catch(error => //console.log(error))
                      res.status(500).json(error));
      }
-};
+}
+     
+
 // exports.getAllLike = (req, res, next)=>{
 //    db.Like.findAndCountAll({
 //       where: {
