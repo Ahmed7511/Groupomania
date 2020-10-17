@@ -3,23 +3,21 @@
 <v-container>
     <v-toolbar>
         <v-spacer></v-spacer>
-      <v-btn color="white"  value="message">
-         <span>Groupomania Users </span>
-        </v-btn>
+      <v-toolbar-title >
+         <span class="title font-weight-bold">Groupomania Messages </span>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
-    <RouterLink to="Groupomania">HOME</RouterLink>
+    <RouterLink class="text-decoration-none" to="Groupomania">HOME</RouterLink>
     </v-toolbar>
      <v-card
          v-for="message in messages"
          :key="message.id"
-         class="mx-auto"
-         color="#26c6da"
-         dark
+         class="mx-auto pa-4 my-4"
          max-width="600"
       >
      <v-card-title>
             <v-icon large left> </v-icon>
-            <span class="title font-weight-bold"> {{ message.pseudo }}</span>
+            <span class="title font-weight-bold"> {{ message.User.pseudo }}</span>
          </v-card-title>
 
          <v-card-actions>
@@ -47,13 +45,13 @@
      </v-card>
      {{ error }}
 </v-container>
-<v-footer class="footer" dark padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="blue">
+<v-footer class="footer"  padless >
+         <v-card flat tile class=" lighten-1 white--text text-center"  color="grey">
             <v-card-text>
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
-                  class="mx-4 white--text"
+                  class="mx-4 red--text"
                   icon
                >
                   <v-icon size="24px">
@@ -62,7 +60,7 @@
                </v-btn>
             </v-card-text>
 
-            <v-card-text class="white--text pt-0">
+            <v-card-text class="black--text pt-0">
                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
                amet. Mauris cursus commodo interdum. Praesent ut risus eget
                metus luctus accumsan id ultrices nunc. Sed at orci sed massa
@@ -76,7 +74,7 @@
 
             <v-divider></v-divider>
 
-            <v-card-text class="white--text">
+            <v-card-text class="red--text">
                {{ new Date().getFullYear() }} — <strong>GROUPOMANIA</strong>
             </v-card-text>
          </v-card>
@@ -122,7 +120,8 @@ export default {
 }
     </script>
     <style  scoped>
-    .v-main {
-       background-color: blueviolet;
+    .v-card{
+         background-image: url("../assets/icon.png");
+   background-repeat: round;
     }
     </style>

@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id' },
     allowNull: false
     },
-    imageUrl: DataTypes.STRING
+    likes: DataTypes.INTEGER,
+    DisLikes: DataTypes.INTEGER,
+    imageUrl: DataTypes.STRING,
   });
   Message.associate = (models) => {
     Message.belongsTo(models.User, {

@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require("helmet"); //pour aider a protéger les en-têtes HTTP.
 const bodyParser = require('body-parser');
 const UserRoutes = require('./Routes/User');
 const MessageRoutes = require('./Routes/Message');
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
           next();
 });
 app.use(bodyParser.json());
+app.use(helmet());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/user', UserRoutes);
 app.use('/message', MessageRoutes);

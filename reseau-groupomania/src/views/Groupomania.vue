@@ -1,33 +1,49 @@
-<template >
+<template>
 <v-main>
    <v-container>
-      <v-toolbar color="blue ">
-       <v-toolbar-title>Welcome 
-       
-          </v-toolbar-title>
-         <v-spacer></v-spacer>
-         <v-btn color="blue" value="message">
-               <img src="../assets/icon-left-font-monochrome-black.png" width="150px" >     
-         </v-btn>
-         <v-spacer></v-spacer>
-         <v-toolbar-items>
-            <v-btn v-if="user.isAdmin == true">
-               <RouterLink to="Users">Users</RouterLink>
-            </v-btn>
-            <v-btn color="blue" @click="logout()">Logout</v-btn>
+          <nav >
+         <v-toolbar 
+      prominent
+      src="../assets/icon-left-font.svg" 
+ color="#F44336" class="hidden-sm-and-down ">
+            <v-toolbar-title class="mx-4 " v-if="user.isAdmin == true">
+               <RouterLink to="Users" class="text-decoration-none">Users</RouterLink>
+            </v-toolbar-title>
+          <v-spacer></v-spacer>
+            <v-toolbar-title class="mx-4"  @click="logout()">Logout</v-toolbar-title>  
+         </v-toolbar>
+      <v-toolbar ap src="../assets/icon-left-font.svg" class="hidden-md-and-up">
+      <v-icon @click="drawer =!drawer" >mdi-menu</v-icon>
+      </v-toolbar> 
+         <v-navigation-drawer  v-model="drawer" ap >
+            <v-toolbar-title>
+            <RouterLink class="text-decoration-none" to="Profile" >
+               <v-list-item-avatar color="grey darken-3">
+              <v-img
+                     class="elevation-6"
+                     alt="avatar"
+                     src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                  ></v-img>
+               </v-list-item-avatar>
+               {{user.pseudo}} </RouterLink>
+            </v-toolbar-title>
+            <v-toolbar-items class="d-flex flex-column"  >
+            <v-toolbar-title class="mx-4" v-if="user.isAdmin == true">
+               <RouterLink class="text-decoration-none" to="Users">Users</RouterLink>
+            </v-toolbar-title>
+            <v-toolbar-title class="mx-4"  color="blue" @click="logout()">Logout</v-toolbar-title>
          </v-toolbar-items>
-      </v-toolbar>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-card class="mx-auto px-4" color="blue lighten-2" dark max-width="600px" >
-         <v-toolbar flat color="blue lighten-2">
+         </v-navigation-drawer>
+      </nav>
+     
+      <v-card class="mx-auto pa-4 mt-4" max-width="600px" >
+         <v-toolbar flat color="#FFAB">
             <v-icon>mdi-account</v-icon>
             <v-toolbar-title class="font-weight-bold" color="blue-grey">
-               <RouterLink to="Profile" >{{ user.pseudo }}</RouterLink>
+               <RouterLink class="text-decoration-none" to="Profile" >{{ user.pseudo }}</RouterLink>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn
-               color="blue"
                fab
                small
                @click="isEditing = !isEditing"
@@ -77,9 +93,8 @@
       <v-card
          v-for="message in messages"
          :key="message.id"
-         class="mx-auto px-4"
-         color="#26c6da"
-         dark
+         class="mx-auto pa-4 my-4"
+         color="#fff"
          max-width="600"
       >
    
@@ -96,26 +111,22 @@
                      attrs,
                   }"
                >
-                  <v-btn color="blue" v-bind="attrs" v-on="on">
+                  <v-btn v-bind="attrs" v-on="on">
                      V
                   </v-btn>
                </template>
-               <v-list> 
-                  <v-list-item v-for="(option, index) in options" :key="index">
-                     <v-list-item-title
+               <v-list class="d-flex flex-column"> 
+                     <v-icon color="blue"
                         v-if="message.userId == user.id"
                         @click="edit = message.id"  >
-                     
-                        {{ option.edit }}
-                         </v-list-item-title
-                     ><br />
-                     <v-list-item-title
+                             mdi-pencil
+                          
+                         </v-icon>
+                     <v-icon
+                        color="red"
                         v-if="message.userId == user.id || user.isAdmin == true"
                         @click="remove(message)"
-                        >{{ option.delete }}</v-list-item-title
-                     >
-                  </v-list-item>
-                 
+                        >mdi-delete</v-icon>
                </v-list>
             </v-menu>
          </div>
@@ -136,9 +147,9 @@
             </v-list-item>
             
          </v-card-actions>
-               <h3>
+               <v-card-title>
                   {{ message.title }}
-               </h3>
+               </v-card-title>
                <v-img :src='message.imageUrl' max-width="300px" ></v-img>
                <p>
                   {{ message.content }}
@@ -158,16 +169,22 @@
                   type="text"
                   class="form-control"
                   name="title"
+                  id="title"
                   v-model="message.title"
-               /><br>
-               <label for="post-content">
+               >
+               <br>
+               <label for="content">
                   content :
                   <textarea
+                  id="content"
                      name="content"
-                     rows="1"
+                     rows="0"
+                      cols="40"
                      v-model="message.content"
                   ></textarea
-               ></label>
+               >
+                  </label>
+                   <br>
                <v-btn
                   type="button"
                   class="btn btn-success"
@@ -197,7 +214,7 @@
                      }" >
                       <v-icon class="px-2" v-bind="attrs" v-on="on" color="green" @click="userLike(message)"
                            >mdi-thumb-up</v-icon >
-                        <span v-for="react in reacts" :key="react.messageId">{{ react }} </span>
+                        <span >{{ countLike }} </span>
                   </template>
                   <span>J'aime !</span>
                </v-tooltip>
@@ -210,18 +227,17 @@
                         attrs,
                      }"
                   >
-                     
                         <v-icon class="px-2" color="red" v-bind="attrs" v-on="on" @click="userDislike(message)"
                            >mdi-thumb-down</v-icon >
-                        <span>{{ countDislike }}</span>
+                        <span >{{ countDisLike }}</span>
                    
                   </template>
                   <span>J'aime pas !</span>
                </v-tooltip>
             </div>
          </div>
-         <v-card elevation="2"  color="blue-grey lighten-2">
-            <div class="comments" v-for="item in items" :key="item.id">
+         <v-card elevation="2"  color="#F3E5F5">
+            <div class="pa-2 my-2" v-for="item in items" :key="item.id">
             <h5 v-if="item.messageId == message.id">
                {{ item.pseudo }}
             </h5>
@@ -248,7 +264,8 @@
                >mdi-delete</v-icon
             >
             <form class="edit-comment" v-if="edit === item.id">
-               <textarea v-model="item.comment"> </textarea>
+              <label for='message.message_id'> {{ item.pseudo}} : </label><br>
+                <textarea id='message.message_id' rows="1" v-model="item.comment"> </textarea>
                <v-icon
                   type="button"
                   class="btn btn-success"
@@ -270,7 +287,9 @@
          </div>
 
             <div class="comment"  color="red" >
-            <textarea v-model="comment" placeholder="add comment"></textarea>
+               <label for="add-comment" class="bold"> {{ user.pseudo}}</label><br>
+            <textarea id="add-comment" rows="1" v-model="comment" placeholder="add comment"></textarea>
+            
             <v-icon
                class="btn btn-primary btn-block"
                @click="postComment(message)"
@@ -280,255 +299,14 @@
              </v-card>
          
       </v-card>
-
-      <!-- <div class="message" v-for="message in messages" :key="message.id">
-         <div class="text-right">
-            <v-menu
-               offset-y
-               v-if="message.userId == user.id || user.isAdmin == true"
-            >
-               <template
-                  v-slot:activator="{
-                     on,
-                     attrs,
-                  }"
-               >
-                  <v-btn v-bind="attrs" v-on="on">
-                     V
-                  </v-btn>
-               </template>
-               <v-list>
-                  <v-list-item v-for="(option, index) in options" :key="index">
-                     <v-list-item-title
-                        v-if="message.userId == user.id"
-                        @click="edit = message.id"
-                        >{{ option.edit }}</v-list-item-title
-                     ><br />
-                     <v-list-item-title
-                        v-if="message.userId == user.id || user.isAdmin == true"
-                        @click="remove(message)"
-                        >{{ option.delete }}</v-list-item-title
-                     >
-                  </v-list-item>
-               </v-list>
-            </v-menu>
-         </div>
-         <h3>{{ message.pseudo }}</h3>
-         <h4>{{ message.title }}</h4>
-         <small
-            ><span
-               class="glyphicon glyphicon-calendar"
-               aria-hidden="false"
-            ></span
-            >{{ message.createdAt }}</small
-         >
-         <p>
-            {{ message.content }}
-         </p>
-         <img :src="message.imageUrl" />
-         <p>{{ message.id }}</p> -->
-
-         <!-- <v-row justify="center"> -->
-            <!-- <template  v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          v-if="message.userId == user.id" @click="edit = message.id"
-        >
-                open
-        </v-btn>
-      </template >
-      <v-card >
-        <v-card-title>
-          <span class="headline">User post</span>
-        </v-card-title>
-        <v-card-text>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                v-model="message.title"
-                  label="title"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                v-model="message.content"
-                  label="content"
-                ></v-text-field>
-              </v-col>
-             
-            </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="modify(message)"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
-            <!-- <v-dialog
-      v-model="dialog"
-      max-width="600px"
-    > -->
-            <!-- <v-form
-               class="add-new-post"
-               name="add-new-post"
-               v-if="edit === message.id"
-            >
-               <label for="title">
-                  title :
-               </label>
-               <input
-                  type="text"
-                  class="form-control"
-                  name="title"
-                  v-model="message.title"
-               />
-               <label for="post-content">
-                  content :
-                  <textarea
-                     name="content"
-                     rows="1"
-                     v-model="message.content"
-                  ></textarea
-               ></label>
-               <v-btn
-                  type="button"
-                  class="btn btn-success"
-                  color="succes"
-                  data-dismiss="modal"
-                  v-if="edit === message.id"
-                  @click="modify(message)"
-                  >Save Changes</v-btn
-               >
-               <v-btn
-                  type="button"
-                  class="btn btn-default"
-                  color="primary"
-                  data-dismiss="modal"
-                  v-if="edit === message.id"
-                  @click="edit = !edit"
-                  >Close</v-btn
-               >
-            </v-form>
-             </v-dialog>
-         </v-row> -->
-         <!-- <div class="react">
-            <div class="likes">
-               <v-tooltip top>
-                  <template
-                     v-slot:activator="{
-                        on,
-                        attrs,
-                     }"
-                  >
-                     <v-btn v-bind="attrs" v-on="on"
-                        ><v-icon color="green" @click="userLike(message)"
-                           >mdi-thumb-up</v-icon
-                        >
-                        <span>{{ countLike }} </span>
-                     </v-btn>
-                  </template>
-                  <span>J'aime !</span>
-               </v-tooltip>
-            </div>
-            <div class="dislikes">
-               <v-tooltip top>
-                  <template
-                     v-slot:activator="{
-                        on,
-                        attrs,
-                     }"
-                  >
-                     <v-btn v-bind="attrs" v-on="on"
-                        ><v-icon color="red" @click="userDislike(message)"
-                           >mdi-thumb-down</v-icon
-                        >
-                        <span>{{ countDislike }}</span>
-                     </v-btn>
-                  </template>
-                  <span>J'aime pas !</span>
-               </v-tooltip>
-            </div>
-         </div>
-         <div class="comments" v-for="item in items" :key="item.id">
-            <h5 v-if="item.messageId == message.id">
-               {{ item.pseudo }}
-            </h5>
-            <p v-if="item.messageId == message.id">
-               {{ item.comment }}
-            </p>
-
-            <small v-if="item.messageId == message.id"
-               >{{ item.createdAt }}
-            </small>
-            <v-btn
-               v-if="item.messageId == message.id"
-               color="primary"
-               @click="edit = item.id"
-            >
-               edit
-            </v-btn>
-            <v-btn
-               v-if="item.messageId == message.id"
-               class="btn"
-               @click="removeComment(item)"
-               >X</v-btn
-            >
-            <form class="edit-comment" v-if="edit === item.id">
-               <textarea v-model="item.comment"> </textarea>
-               <v-btn
-                  type="button"
-                  class="btn btn-success"
-                  color="succes"
-                  data-dismiss="modal"
-                  @click="modifyComment(item)"
-                  >Save Changes</v-btn
-               >
-               <v-btn
-                  type="button"
-                  class="btn btn-default"
-                  color="primary"
-                  data-dismiss="modal"
-                  v-if="edit === item.id"
-                  @click="edit = !edit"
-                  >Close</v-btn
-               >
-            </form>
-         </div>
-
-         <div class="comment">
-            <textarea v-model="comment" placeholder="add comment"></textarea>
-            <v-btn
-               class="btn btn-primary btn-block"
-               @click="postComment(message)"
-               >add comment</v-btn
-            >
-         </div> -->
-      <!-- </div> -->
-      
    </v-container>
-   <v-footer class="footer" dark padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="blue">
+   <v-footer class="footer"  >
+         <v-card flat tile class="text-center" color="#F3E5F5">
             <v-card-text>
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
-                  class="mx-4 white--text"
+                  class="mx-4 black--text"
                   icon
                >
                   <v-icon size="24px">
@@ -537,7 +315,7 @@
                </v-btn>
             </v-card-text>
 
-            <v-card-text class="white--text pt-0">
+            <v-card-text  class="black--text pt-0">
                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
                amet. Mauris cursus commodo interdum. Praesent ut risus eget
                metus luctus accumsan id ultrices nunc. Sed at orci sed massa
@@ -548,12 +326,14 @@
                natoque penatibus et magnis dis parturient montes, nascetur
                ridiculus mus.
             </v-card-text>
+            <strong> 
+              {{ new Date().getFullYear() }}
 
+                 </strong>
             <v-divider></v-divider>
 
-            <v-card-text class="white--text">
-               {{ new Date().getFullYear() }} — <strong>GROUPOMANIA</strong>
-            </v-card-text>
+                  <img src="../assets/icon-left-font-monochrome-black.png" alt="groupomania" width="120px" >
+            
          </v-card>
       </v-footer>
 </v-main>
@@ -566,6 +346,7 @@ export default {
    // components : { Dialog },
    data() {
       return {
+         drawer : false,
          dialog: false,
          hasSaved: false,
          isEditing: null,
@@ -581,8 +362,9 @@ export default {
          items: [],
          rows: [],
          reacts: [],
+         messageId:"",
          countLike: "",
-         countDislike: "",
+         countDisLike: "",
          options: [{ edit: "Edit" }, { delete: "Delete" }],
          icons: [
             "mdi-facebook",
@@ -590,11 +372,37 @@ export default {
             "mdi-linkedin",
             "mdi-instagram",
          ],
+         nav: [
+        {
+          icon: 'home',
+          text: 'Home',
+          title: 'Back to Home page',
+          active: true
+        },
+        {
+          icon: 'info',
+          text: 'About',
+          title: 'About this demo',
+          active: false
+        },
+        {
+          icon: 'assignment_turned_in',
+          text: 'Todos',
+          title: 'Some stuff that needs doing',
+          active: false
+        },
+        {
+          icon: 'email',
+          text: 'Contact',
+          title: 'Our Contact info',
+          active: false
+        }
+      ]
+    
       };
    },
    created() {
-      axios
-         .get("http://localhost:3000/message/messages", {
+      axios.get("http://localhost:3000/message/messages", {
             headers: {
                Authorization: "Bearer " + localStorage.token,
             },
@@ -606,8 +414,7 @@ export default {
          )
          .catch((err) => console.log(err));
       //get user
-      axios
-         .get("http://localhost:3000/user/", {
+      axios.get("http://localhost:3000/user/", {
             headers: {
                Authorization: "Bearer " + localStorage.token,
             },
@@ -748,10 +555,10 @@ export default {
 
       userLike(message) {
          axios.post(
-               "http://localhost:3000/react",
+               "http://localhost:3000/react/",
                {
-                  messageId: message.id,
-                  likeType: this.like,
+                  likeType : this.like,
+                  messageId : message.id
                },
                {
                   headers: {
@@ -759,24 +566,23 @@ export default {
                   },
                }
             )
-            .then(response =>
-                console.log(response.data))
-            // .then(
-            //    (response) => (
-            //       (this.countLike = response.data.count),
-            //       (this.key = response.data.messageId),
-            //       (this.reacts = response.data.reacts)
-            //    )
-            // )
+            // .then(response =>
+            //     console.log(response.data))
+            .then(
+               (response) => console.log(response))
+               //  (
+               //    (this.countLike = response.data.count)
+               //  ) )
+            
             .catch((err) => console.log(err));
       },
       userDislike(message) {
-         axios
-            .post(
-               "http://localhost:3000/react",
+         axios.post(
+                "http://localhost:3000/react/",
                {
-                  messageId: message.id,
-                  likeType: this.disLike,
+                 likeType: this.disLike,
+                  messageId : message.id
+
                },
                {
                   headers: {
@@ -784,14 +590,12 @@ export default {
                   },
                }
             )
-            //.then(res => console.log(res) )
-            .then(
-               (res) => (
-                  (this.countDislike = res.data.count),
-                  (this.key = res.data.messageId),
-                  (this.reacts = res.data.reacts)
-               )
-            )
+            .then(res => console.log(res) )
+            // .then(
+            //    (res) => (
+            //       (this.countDislike = res.data.count)
+            //    )
+            // )
             .catch((err) => console.log(err));
       },
       //   getLike(message){
@@ -821,11 +625,12 @@ export default {
 };
 </script>
 <style scoped>
-.v-main{
-   background-color: blueviolet;
-}
 .react {
    display: flex;
+}
+.add-new-post {
+   background-image: url("../assets/icon.png");
+   background-repeat: round;
 }
 
 </style>

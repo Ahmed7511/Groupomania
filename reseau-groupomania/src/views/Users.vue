@@ -1,18 +1,35 @@
 <template>
 <v-main>
 <v-container> 
-    <v-toolbar >
-        <v-btn >
-     <RouterLink to="moderation">last postes</RouterLink>
-        </v-btn>
-        <v-spacer></v-spacer>
-      <v-btn color="white"  value="message">
-         <span  >Groupomania Users </span>
-        </v-btn>
-        <v-spacer></v-spacer>
-    <RouterLink to="Groupomania">HOME</RouterLink>
-    </v-toolbar>   
-     <div class="user"  v-for="user in users" :key="user.id" >
+   <nav >
+     <v-toolbar color="red" class="hidden-sm-and-down mx-2">
+          <v-toolbar-title>
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
+            </v-toolbar-title>
+         <v-toolbar-title class="title font-weight-bold mx-auto">Groupomania Messages </v-toolbar-title>
+            <v-toolbar-title >
+    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+            </v-toolbar-title>
+            </v-toolbar>
+        <v-toolbar flat ap color="red " class="hidden-md-and-up" >
+      <v-icon @click="drawer =!drawer">mdi-menu</v-icon>
+         <v-toolbar-title class="title font-weight-bold mx-auto" >Groupomania Messages </v-toolbar-title>
+        </v-toolbar> 
+         <v-navigation-drawer v-model="drawer" ap >
+            <v-toolbar-items class="d-flex flex-column" >
+            <v-toolbar-title >
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
+            </v-toolbar-title>
+            <v-toolbar-title  >
+    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+            </v-toolbar-title>
+         </v-toolbar-items>
+         </v-navigation-drawer>
+         </nav>
+     <v-card
+      v-for="user in users" :key="user.id" 
+       class="mx-auto pa-4 my-4"
+         max-width="600">
                <v-card-title>
             <v-icon large left> </v-icon>
          </v-card-title>
@@ -30,23 +47,22 @@
             
          </v-card-actions>
           <span class="title font-weight-bold">pseudo : {{ user.pseudo }}</span>
-
                <p class="title font-weight-bold">Email : {{ user.email }}</p>
                <p class="title font-weight-bold">created at :{{ user.createdAt }}</p>
                <v-btn color="error" @click="deleteUser(user)"> delete </v-btn>
             
-          </div>
+     </v-card>
           
 
          {{ error }}
 </v-container>
 <v-footer class="footer" dark padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="blue">
+         <v-card flat tile class=" lighten-1 white--text text-center"  color="grey">
             <v-card-text>
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
-                  class="mx-4 white--text"
+                  class="mx-4 red--text"
                   icon
                >
                   <v-icon size="24px">
@@ -55,7 +71,7 @@
                </v-btn>
             </v-card-text>
 
-            <v-card-text class="white--text pt-0">
+            <v-card-text class="black--text pt-0">
                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
                amet. Mauris cursus commodo interdum. Praesent ut risus eget
                metus luctus accumsan id ultrices nunc. Sed at orci sed massa
@@ -69,7 +85,7 @@
 
             <v-divider></v-divider>
 
-            <v-card-text class="white--text">
+            <v-card-text class="red--text">
                {{ new Date().getFullYear() }} — <strong>GROUPOMANIA</strong>
             </v-card-text>
          </v-card>
@@ -81,6 +97,7 @@
 export default {
     data(){
         return{
+           drawer : false,
             user : '',
             users : [],
             error : '',
@@ -112,7 +129,5 @@ export default {
 }
 </script>
 <style scoped>
-.v-main{
-   background-color: blueviolet;
-}
+
 </style>
