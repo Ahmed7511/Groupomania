@@ -2,23 +2,23 @@
 <v-main>
 <v-container> 
    <nav >
-     <v-toolbar color="blue" class="hidden-sm-and-down">
+     <v-toolbar color="red" class="hidden-sm-and-down mx-2">
           <v-toolbar-title>
-     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">last postes</RouterLink>
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
             </v-toolbar-title>
          <v-toolbar-title class="title font-weight-bold mx-auto">Groupomania Messages </v-toolbar-title>
             <v-toolbar-title >
     <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
             </v-toolbar-title>
             </v-toolbar>
-        <v-toolbar flat ap color="blue " class="hidden-md-and-up" >
+        <v-toolbar flat ap color="red " class="hidden-md-and-up" >
       <v-icon @click="drawer =!drawer">mdi-menu</v-icon>
          <v-toolbar-title class="title font-weight-bold mx-auto" >Groupomania Messages </v-toolbar-title>
         </v-toolbar> 
          <v-navigation-drawer v-model="drawer" ap >
             <v-toolbar-items class="d-flex flex-column" >
             <v-toolbar-title >
-     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">last postes</RouterLink>
+     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
             </v-toolbar-title>
             <v-toolbar-title  >
     <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
@@ -57,12 +57,12 @@
          {{ error }}
 </v-container>
 <v-footer class="footer" dark padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="blue">
+         <v-card flat tile class=" lighten-1 white--text text-center"  color="grey">
             <v-card-text>
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
-                  class="mx-4 white--text"
+                  class="mx-4 red--text"
                   icon
                >
                   <v-icon size="24px">
@@ -71,7 +71,7 @@
                </v-btn>
             </v-card-text>
 
-            <v-card-text class="white--text pt-0">
+            <v-card-text class="black--text pt-0">
                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
                amet. Mauris cursus commodo interdum. Praesent ut risus eget
                metus luctus accumsan id ultrices nunc. Sed at orci sed massa
@@ -85,7 +85,7 @@
 
             <v-divider></v-divider>
 
-            <v-card-text class="white--text">
+            <v-card-text class="red--text">
                {{ new Date().getFullYear() }} — <strong>GROUPOMANIA</strong>
             </v-card-text>
          </v-card>

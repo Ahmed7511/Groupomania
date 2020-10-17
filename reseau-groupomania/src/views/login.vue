@@ -6,7 +6,7 @@
                <v-tab to="/user/signup">Register</v-tab>
           </v-tabs>
           <v-form ref="form" lazy-validation>
-               <v-container>
+               
                     <v-col>
                          <v-row>
                               <v-text-field
@@ -37,7 +37,7 @@
                               >
                          </v-row>
                     </v-col>
-               </v-container>
+            
           </v-form>
      </v-container>
 </v-main>

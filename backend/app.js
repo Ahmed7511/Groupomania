@@ -1,5 +1,5 @@
 const express = require('express');
-const helmet = require("helmet"); //aide à protéger les en-têtes HTTP.
+const helmet = require("helmet"); //pour aider a protéger les en-têtes HTTP.
 const bodyParser = require('body-parser');
 const UserRoutes = require('./Routes/User');
 const MessageRoutes = require('./Routes/Message');
