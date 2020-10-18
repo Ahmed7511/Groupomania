@@ -59,27 +59,3 @@ exports.reactPost = async (req, res, next) => {
      }
 }
      
-
-// exports.getAllLike = (req, res, next)=>{
-//    db.Like.findAndCountAll({
-//       where: {
-//         messageId: req.body.messageId,
-//       }
-//    })
-//    .then(result => {
-//     res.status(201).json(result.rows)
-//      console.log(result.count)
-//    });
-// }
-
-// exports.getAllDisLike =  (req, res, next)=>{
-//   db.Like.findAndCountAll({
-//       where: {
-//         id: req.body.messageId,
-//       }
-//    })
-//    .then(result => {
-//     res.status(201).json(result.count)
-//      console.log(result.rows)
-//    });
-// }

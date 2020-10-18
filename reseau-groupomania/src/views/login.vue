@@ -85,8 +85,9 @@ export default {
 </script>
 <style scoped>
 .v-main{
-     background: url('../assets/icon.png');
-   background-repeat: round;
+   background-image: url("../assets/icon.png");
+       background-position: center;
+    background-size: contain;
 
 }
 </style>

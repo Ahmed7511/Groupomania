@@ -3,8 +3,6 @@ const db = require("../config/database");
 const jwt = require("jsonwebtoken");
 const message = require("../models/message");
 const fs = require("fs");
-const jwtUtils = require('jwt-utils');
-var asyncWaterfall = require('async-waterfall');
 
 exports.getAllMessage = (req, res, next) => {
    db.Message.findAll({
@@ -222,64 +220,4 @@ exports.likeMessage = async(req, res, next) => {
  }
 
 }
-   // asyncWaterfall([
-     
-//       function(messageFound, userFound, done) {
-//          if(userFound) {
-//            models.Like.findOne({
-//              where: {
-//                userId: userId,
-//                messageId: messageId
-//              }
-//            })
-//            .then(function(userAlreadyLikedFound) {
-//              done(null, messageFound, userFound, userAlreadyLikedFound);
-//            })
-//            .catch(function(err) {
-//              return res.status(500).json({ 'error': 'unable to verify is user already liked' });
-//            });
-//          } else {
-//            res.status(404).json({ 'error': 'user not exist' });
-//          }
-//        },
-//        function(messageFound, userFound, userAlreadyLikedFound, done) {
-//          if(!userAlreadyLikedFound) {
-//            messageFound.addUser(userFound, { isLike: LIKED })
-//            .then(function (alreadyLikeFound) {
-//              done(null, messageFound, userFound);
-//            })
-//            .catch(function(err) {
-//              return res.status(500).json({ 'error': 'unable to set user reaction' });
-//            });
-//          } else {
-//            if (userAlreadyLikedFound.isLike === DISLIKED) {
-//              userAlreadyLikedFound.update({
-//                isLike: LIKED,
-//              }).then(function() {
-//                done(null, messageFound, userFound);
-//              }).catch(function(err) {
-//                res.status(500).json({ 'error': 'cannot update user reaction' });
-//              });
-//            } else {
-//              res.status(409).json({ 'error': 'message already liked' });
-//            }
-//          }
-//        },
-//        function(messageFound, userFound, done) {
-//          messageFound.update({
-//            likes: messageFound.likes + 1,
-//          }).then(function() {
-//            done(messageFound);
-//          }).catch(function(err) {
-//            res.status(500).json({ 'error': 'cannot update message like counter' });
-//          });
-//        },
-//      ], function(messageFound) {
-//        if (messageFound) {
-//          return res.status(201).json(messageFound);
-//        } else {
-//          return res.status(500).json({ 'error': 'cannot update message' });
-//        }
-     
-//    })
-// }
+  

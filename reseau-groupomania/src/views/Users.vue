@@ -4,11 +4,11 @@
    <nav >
      <v-toolbar color="red" class="hidden-sm-and-down mx-2">
           <v-toolbar-title>
-     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
+     <RouterLink style="text-decoration: none; color: inherit;"  class="title font-weight-bold" to="moderation">latest posts</RouterLink>
             </v-toolbar-title>
          <v-toolbar-title class="title font-weight-bold mx-auto">Groupomania Messages </v-toolbar-title>
             <v-toolbar-title >
-    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+    <RouterLink style="text-decoration: none; color: inherit;"  class="title font-weight-bold" to="Groupomania">HOME</RouterLink>
             </v-toolbar-title>
             </v-toolbar>
         <v-toolbar flat ap color="red " class="hidden-md-and-up" >
@@ -18,10 +18,10 @@
          <v-navigation-drawer v-model="drawer" ap >
             <v-toolbar-items class="d-flex flex-column" >
             <v-toolbar-title >
-     <RouterLink  class="title font-weight-bold text-decoration-none" to="moderation">latest posts</RouterLink>
+     <RouterLink style="text-decoration: none; color: inherit;"  class="title font-weight-bold " to="moderation">latest posts</RouterLink>
             </v-toolbar-title>
             <v-toolbar-title  >
-    <RouterLink  class="title font-weight-bold text-decoration-none" to="Groupomania">HOME</RouterLink>
+    <RouterLink style="text-decoration: none; color: inherit;"  class="title font-weight-bold" to="Groupomania">HOME</RouterLink>
             </v-toolbar-title>
          </v-toolbar-items>
          </v-navigation-drawer>
@@ -30,10 +30,6 @@
       v-for="user in users" :key="user.id" 
        class="mx-auto pa-4 my-4"
          max-width="600">
-               <v-card-title>
-            <v-icon large left> </v-icon>
-         </v-card-title>
-
          <v-card-actions>
             <v-list-item>
                <v-list-item-avatar color="grey darken-3">

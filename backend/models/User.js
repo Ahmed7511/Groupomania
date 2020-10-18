@@ -2,7 +2,6 @@
  const bcrypt = require('bcrypt')
  const express = require('express');
 const sequelize = require('../config/database');
-// const Message = require('../models/message');
 module.exports = (sequelize, DataTypes) => {
  const User = sequelize.define('User', {
   email: {type : DataTypes.STRING,

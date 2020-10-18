@@ -1,13 +1,13 @@
 <template>
 <v-main>
 <v-container>
-    <v-toolbar>
+    <v-toolbar color="red">
         <v-spacer></v-spacer>
       <v-toolbar-title >
          <span class="title font-weight-bold">Groupomania Messages </span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-    <RouterLink class="text-decoration-none" to="Groupomania">HOME</RouterLink>
+    <RouterLink style="text-decoration: none; color: inherit;" class="title font-weight-bold" to="Groupomania">HOME</RouterLink>
     </v-toolbar>
      <v-card
          v-for="message in messages"
@@ -39,15 +39,13 @@
                <p>
                   {{ message.content }}
                </p>
-                  {{ message.id }}
-
                <small>{{ message.createdAt }} </small>
      </v-card>
      {{ error }}
 </v-container>
-<v-footer class="footer"  padless >
-         <v-card flat tile class=" lighten-1 white--text text-center"  color="grey">
-            <v-card-text>
+<v-footer class=" lighten-1 white--text text-center"  padless >
+         <v-card flat tile class="footer" color="grey">
+            <v-card-text >
                <v-btn
                   v-for="icon in icons"
                   :key="icon"
@@ -120,8 +118,9 @@ export default {
 }
     </script>
     <style  scoped>
-    .v-card{
-         background-image: url("../assets/icon.png");
-   background-repeat: round;
+    .footer{
+         background: url("../assets/icon.png");
+       background-position: center;
+    background-size: contain;
     }
     </style>

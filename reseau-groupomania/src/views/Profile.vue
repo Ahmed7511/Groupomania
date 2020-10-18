@@ -4,7 +4,7 @@
           <v-toolbar >
                <v-toolbar-title>Welcome {{ user.pseudo }}</v-toolbar-title>
                <v-spacer></v-spacer>
-               <RouterLink class="text-decoration-none" to="Groupomania">HOME</RouterLink>
+               <RouterLink style="text-decoration: none; color: inherit;"  to="Groupomania">HOME</RouterLink>
           </v-toolbar>
           <v-card-text class="mx-auto pa-4 mt-4" max-width="600px" >
          <v-card-actions>
@@ -50,8 +50,8 @@
           </form>
           </v-card-text>
      </v-container>
-     <v-footer class="footer"  padless >
-         <v-card flat tile class="lighten-1 white--text text-center" color="grey">
+     <v-footer class="footer"  padless color="grey" >
+         <v-card flat tile class="lighten-1 white--text text-center" >
               
              <v-card-text>
                <v-btn
@@ -89,6 +89,7 @@
 
       </v-footer>
     </v-main>
+
 </template>
 <script>
 import axios from "axios";
@@ -148,7 +149,8 @@ export default {
 </script>
 <style scoped>
 .v-card{
-   background: url('../assets/icon-above-font.png');
-   background-repeat: round;
+   background-image: url('../assets/icon-above-font.png');
+      background-position: center;
+    background-size: contain;
 }
 </style>

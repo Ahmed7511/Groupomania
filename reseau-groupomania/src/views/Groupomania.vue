@@ -1,13 +1,13 @@
 <template>
 <v-main>
    <v-container>
-          <nav >
+         <nav >
          <v-toolbar 
-      prominent
-      src="../assets/icon-left-font.svg" 
- color="#F44336" class="hidden-sm-and-down ">
+               prominent
+               src="../assets/icon-left-font.svg" 
+               color="#F44336" class="hidden-sm-and-down ">
             <v-toolbar-title class="mx-4 " v-if="user.isAdmin == true">
-               <RouterLink to="Users" class="text-decoration-none">Users</RouterLink>
+               <RouterLink to="Users" style="text-decoration: none; color: inherit;">Users</RouterLink>
             </v-toolbar-title>
           <v-spacer></v-spacer>
             <v-toolbar-title class="mx-4"  @click="logout()">Logout</v-toolbar-title>  
@@ -17,7 +17,7 @@
       </v-toolbar> 
          <v-navigation-drawer  v-model="drawer" ap >
             <v-toolbar-title>
-            <RouterLink class="text-decoration-none" to="Profile" >
+            <RouterLink style="text-decoration: none; color: inherit;" to="Profile" >
                <v-list-item-avatar color="grey darken-3">
               <v-img
                      class="elevation-6"
@@ -29,13 +29,12 @@
             </v-toolbar-title>
             <v-toolbar-items class="d-flex flex-column"  >
             <v-toolbar-title class="mx-4" v-if="user.isAdmin == true">
-               <RouterLink class="text-decoration-none" to="Users">Users</RouterLink>
+               <RouterLink style="text-decoration: none; color: inherit;" to="Users">Users</RouterLink>
             </v-toolbar-title>
             <v-toolbar-title class="mx-4"  color="blue" @click="logout()">Logout</v-toolbar-title>
          </v-toolbar-items>
          </v-navigation-drawer>
       </nav>
-     
       <v-card class="mx-auto pa-4 mt-4" max-width="600px" >
          <v-toolbar flat color="#FFAB">
             <v-icon>mdi-account</v-icon>
@@ -58,8 +57,8 @@
          </v-toolbar>
          <v-form
             enctype="multipart/form-data"
-            class="add-new-post"
-            name="add-new-post"
+            class="add-post"
+            name="add-post"
             ref="MyForm"
          >
             <v-text-field
@@ -85,10 +84,6 @@
             </v-btn>
            </v-row>
          </v-form>
-
-         <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom left>
-            Your have posted
-         </v-snackbar>
       </v-card>
       <v-card
          v-for="message in messages"
@@ -154,8 +149,6 @@
                <p>
                   {{ message.content }}
                </p>
-                  {{ message.id }}
-
                <small>{{ message.createdAt }} </small>
            <v-form
                class="add-new-post"
@@ -340,15 +333,11 @@
 </template>
 
 <script>
-//import Dialog from "./dialog"
 import axios from "axios";
 export default {
-   // components : { Dialog },
    data() {
       return {
          drawer : false,
-         dialog: false,
-         hasSaved: false,
          isEditing: null,
          like: 1,
          disLike: -1,
@@ -598,29 +587,7 @@ export default {
             // )
             .catch((err) => console.log(err));
       },
-      //   getLike(message){
-      // // compture de reaction
-      // console.log(message.id)
-      //         axios.get('http://localhost:3000/react/like/' + message.id ,
-      //          { headers : {Authorization: "Bearer " + localStorage.token} }
-      //                          )
-      //                 .then( response => console.log(response))
-      //                         //(this.countLike = response.data) )
-
-      //                 .catch(err =>console.log(err))
-      //                // window.location.reload()
-      //},
-      // compture de reaction
-      //  getDisLike(message){
-      //       axios.get('http://localhost:3000/react/dislike/' + message.id ,
-      //      { headers : {Authorization: "Bearer " + localStorage.token} }
-      //                      )
-      //             .then( res => //console.log(res))
-      //             (this.countDislike = res.data))
-
-      //             .catch(err =>console.log(err))
-      //  window.location.reload()
-      //  }
+      
    },
 };
 </script>
@@ -628,9 +595,10 @@ export default {
 .react {
    display: flex;
 }
-.add-new-post {
+.add-post {
    background-image: url("../assets/icon.png");
-   background-repeat: round;
+       background-position: center;
+    background-size: contain;
 }
 
 </style>
