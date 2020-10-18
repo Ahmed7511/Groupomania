@@ -49,16 +49,9 @@ const userId = decodedToken.userId;
 }
 // getOne comment
 exports.getOneComment =  (req, res, next)=>{
-    // const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
-    // const decodedToken = jwt.verify(
-    //           token,
-    //           process.env.PASS_WORD
-    // );
-    // const userId = decodedToken.userId;
-    
+   
      db.Comment.findOne({
         where : {
-           // userId : userId,
             id : req.params.id,
         }
     })
@@ -67,16 +60,9 @@ exports.getOneComment =  (req, res, next)=>{
 }
 // delete comment 
 exports.deleteComment = async (req, res, next)=>{
-    // const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
-    // const decodedToken = jwt.verify(
-    //           token,
-    //           process.env.PASS_WORD
-    // );
-    // const userId = decodedToken.userId;
-    //console.log(req.body)
+   
     db.Comment.destroy({ 
         where : {
-           // userId : userId,
             id : req.params.id,
          }
     })
@@ -89,19 +75,11 @@ exports.deleteComment = async (req, res, next)=>{
 
 
 // update comment 
-exports.updateOneComment =  (req, res, next)=>{
-    const token =  req.headers.authorization.split(' ')[1]; // on recupére le token(2eme élément du headers)
-    // const decodedToken = jwt.verify(
-    //           token,
-    //           process.env.PASS_WORD
-    // );
-    // const userId = decodedToken.userId;
-    
+exports.updateOneComment =  (req, res, next)=>{    
      db.Comment.update({
         comment : req.body.comment},
         {where : {
             messageId : req.body.messageId,
-            // : userId,
             id : req.params.id
         }}
     )

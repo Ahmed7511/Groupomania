@@ -22,12 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     comment: DataTypes.STRING,
-    // parent: {
-    //   type: DataTypes.INTEGER,
-    //   hierarchy: {as: 'parentId', onDelete: 'cascade'},
-      
-    // },
-    // hierarchyLevel: DataTypes.INTEGER
   }, {  });
   Comment.associate = function(models) {
     Comment.belongsTo(models.User, {
