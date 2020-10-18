@@ -468,8 +468,7 @@ export default {
       },
 
       remove(message) {
-         axios
-            .delete("http://localhost:3000/message/messages/" + message.id, {
+         axios.delete("http://localhost:3000/message/messages/" + message.id, {
                headers: {
                   Authorization: "Bearer " + localStorage.token,
                },
@@ -479,8 +478,7 @@ export default {
          window.location.reload();
       },
       modify(message) {
-         axios
-            .put(
+         axios.put(
                "http://localhost:3000/message/messages/" + message.id,
                {
                   title: message.title,
@@ -542,50 +540,53 @@ export default {
          window.location.reload();
       },
 
-      userLike(message) {
-         axios.post(
-               "http://localhost:3000/react/",
-               {
-                  likeType : this.like,
-                  messageId : message.id
-               },
-               {
-                  headers: {
-                     Authorization: "Bearer " + localStorage.token,
-                  },
-               }
-            )
-            // .then(response =>
-            //     console.log(response.data))
-            .then(
-               (response) => console.log(response))
-               //  (
-               //    (this.countLike = response.data.count)
-               //  ) )
+      userLike() {
+         alert('on travaille pour dévelloper cette fonctionnalité ! ');
+         // axios.post(
+         //       "http://localhost:3000/react/",
+         //       {
+         //          likeType : this.like,
+         //          messageId : message.id
+         //       },
+         //       {
+         //          headers: {
+         //             Authorization: "Bearer " + localStorage.token,
+         //          },
+         //       }
+         //    )
+         //    // .then(response =>
+         //    //     console.log(response.data))
+         //    .then(
+         //       (response) => console.log(response))
+         //       //  (
+         //       //    (this.countLike = response.data.count)
+         //       //  ) )
             
-            .catch((err) => console.log(err));
+         //    .catch((err) => console.log(err));
       },
-      userDislike(message) {
-         axios.post(
-                "http://localhost:3000/react/",
-               {
-                 likeType: this.disLike,
-                  messageId : message.id
+      userDislike() {
+         alert('on travaille pour dévelloper cette fonctionnalité ! ');
 
-               },
-               {
-                  headers: {
-                     Authorization: "Bearer " + localStorage.token,
-                  },
-               }
-            )
-            .then(res => console.log(res) )
-            // .then(
-            //    (res) => (
-            //       (this.countDislike = res.data.count)
-            //    )
-            // )
-            .catch((err) => console.log(err));
+         // axios.post(
+         //        "http://localhost:3000/react/",
+         //       {
+         //         likeType: this.disLike,
+         //          messageId : message.id
+
+         //       },
+         //       {
+         //          headers: {
+         //             Authorization: "Bearer " + localStorage.token,
+         //          },
+         //       }
+         //    )
+         //    .then(res => console.log(res) )
+         //    // .then(
+         //    //    (res) => (
+         //    //       (this.countDislike = res.data.count)
+         //    //    )
+         //    // )
+         //    .catch((err) => console.log(err));
       },
       
    },
